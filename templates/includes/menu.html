@@ -6,7 +6,7 @@
     </div>
     <div class="menu__main" data-style="font-size: 7vmin">
         <div class="menu__accordion" id="menu-accordion-0">
-            <a class="menu__title" href="/" data-category-filter=""><span>Work</span></a>
+            <a class="menu__title" href="/" data-category-filter=""><span>{{ 'Work' | t }}</span></a>
             <div class="menu__items">
                 {% set categories = craft.categories.group('categories').all() %} 
                 {% for category in categories %}
@@ -17,13 +17,14 @@
         </div>
         <a class="menu__spacer">&nbsp;</a>
         <div class="menu__accordion" id="menu-accordion-1">
-            <a class="menu__title" data-category-filter=""><span>Company</span></a>
+            <a class="menu__title" data-category-filter=""><span>{{ 'Company' | t }}</span></a>
             <div class="menu__items">
-                <a class="menu__item" href="{{ craft.entries.section('about').one().url }}"><span>About</span></a>
-                <a class="menu__item" href="/people"><span>People</span></a>
-                <a class="menu__item" href="/in-company"><span>In company</span></a>
-                <a class="menu__item" href="{{ craft.entries.section('atLarge').one().url }}"><span>At large</span></a>
-                <a class="menu__item" href="{{ craft.entries.section('contact').one().url }}" href=""><span>Contact</span></a>
+                {% for handle in [ 'about', 'people', 'in-company', 'atLarge', 'contact' ] %}
+                    {% set entry = craft.entries.section( handle ).one %}
+                    {% if entry %}
+                        <a class="menu__item" href="{{ entry.url }}"><span>{{ entry.title }}</span></a>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>
