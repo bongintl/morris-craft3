@@ -7,7 +7,7 @@ var fns = [
     require('./accordion'),
     require('./menu'),
     require('./filter'),
-    require('./map'),
+    // require('./map'),
     require('./asset')
 ]
 
