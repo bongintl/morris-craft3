@@ -1,0 +1,13 @@
+<div class="feed">
+
+    {% set relatedPosts = craft.entries.section('feed').relatedTo({
+        targetElement: entry
+    }).all() %}
+
+    {% if relatedPosts|length %}
+        {% for entry in relatedPosts %}
+            {% include 'includes/feed--item.html' %}
+        {% endfor %}
+    {% endif %}
+
+</div>

@@ -1,0 +1,11 @@
+{% set landing = craft.entries.section('landing').one() %}
+<div class="slider" data-delay="{{ landing.delay }}">
+	{% set images = shuffle( landing.slides.all ) %}
+	{% for image in images %}
+		{% include 'includes/asset' with {
+			asset: image,
+			class: "slider__slide slider__slide--enter",
+			fit: 'cover'
+		} %}
+	{% endfor %}
+</div>
