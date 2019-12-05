@@ -558,15 +558,20 @@ a:hover, .menu__social a:hover {
     top: 10px;
     transform: translateX(-50%);
     font-weight: 400; }
+    .menu__lang a:first-of-type {
+      margin-right: .25em; }
+    .page--large .menu__lang {
+      font-size: 27px; }
+    .page--medium .menu__lang {
+      font-size: 25px; }
+    .page--small .menu__lang {
+      font-size: 15px; }
     @media (max-width: 640px) {
       .menu__lang {
         top: auto;
         bottom: 10px;
         left: 20px;
-        background-color: red;
-        transform: none; }
-        .menu__lang a:first-of-type {
-          margin-right: .5em; } }
+        transform: none; } }
   .menu__main {
     height: 100%; }
     @media (min-width: 640px) {
@@ -672,7 +677,7 @@ a:hover, .menu__social a:hover {
     @media (max-width: 640px) {
       .menu__social {
         left: 20px;
-        bottom: 20px;
+        bottom: 15px;
         transform: translateX(0); }
         .menu__social a {
           display: block; }

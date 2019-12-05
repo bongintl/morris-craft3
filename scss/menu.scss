@@ -33,17 +33,27 @@
         top: 10px;
         transform: translateX(-50%);
         font-weight: 400;
+        a:first-of-type {
+            margin-right: .25em;
+        }
+        .page--large & {
+            font-size: 27px;
+        }
+    
+        .page--medium & {
+            font-size: 25px;
+        }
         
+        .page--small & {
+            font-size: 15px;
+        }
         @media ( max-width: $breakpoint ) {
             top: auto;
             bottom: 10px;
             left: 20px;
-            background-color: red;
             transform: none;
             
-            a:first-of-type {
-                margin-right: .5em;
-            }
+            
         }
     }
     &__main {
@@ -190,7 +200,7 @@
         
         @media ( max-width: $breakpoint ) {
             left: 20px;
-            bottom: 20px;
+            bottom: 15px;
             transform: translateX(0);
             
             a {
