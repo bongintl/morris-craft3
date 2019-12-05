@@ -665,7 +665,10 @@ a:hover, .menu__social a:hover {
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    font-weight: 300; }
+    font-weight: 300;
+    pointer-events: none; }
+    .menu__social a {
+      pointer-events: visible; }
     .page--large .menu__social {
       font-size: 27px; }
     .page--medium .menu__social {

@@ -1,8 +1,6 @@
 <div class="menu">
     <div class="menu__lang">
         {% for site in craft.app.sites.getAllSites() %}
-                    
-
             <a href="{{ site.getBaseUrl }}" class="{{ site.handle }}{% if site.handle == currentSite.handle %} active{% endif %}">{{ site.handle }}</a>
         {% endfor %}
     </div>
