@@ -896,6 +896,9 @@ a:hover, .menu__social a:hover {
     margin: 0;
     height: 50vh;
     top: 0; }
+    .contact__map iframe {
+      width: 100%;
+      height: 100%; }
 
 div.asset {
   position: absolute;
