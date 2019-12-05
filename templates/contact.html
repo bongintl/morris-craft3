@@ -19,12 +19,19 @@
             </div>
         {% endfor %}
         {% for item in items %}
-        {% set map = item.map %}
-        {{ map.embed({
-            id: 'map',
-            markers: [{}],
-        }) }}
-      
+            <div class="contact__map">
+                <iframe
+                  frameborder="0" style="border:0"
+                  src="https://www.google.com/maps/embed/v1/place?key={{ craft.simpleMap.getMapToken }}
+                    &q={{ map.address | url_encode }}" allowfullscreen>
+                </iframe>
+            </div>
+            <!--<div-->
+            <!--    class="contact__map"-->
+            <!--    data-lat="{{ item.map.lat }}"-->
+            <!--    data-lng="{{ item.map.lng }}"-->
+            <!--    data-zoom="{{ item.map.zoom }}"-->
+            <!--></div>-->
         {% endfor %}
         <div class="row row__footnote">
             <small>
