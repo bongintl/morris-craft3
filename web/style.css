@@ -680,7 +680,7 @@ a:hover, .menu__social a:hover {
     @media (max-width: 640px) {
       .menu__social {
         left: 20px;
-        bottom: 15px;
+        bottom: 0;
         transform: translateX(0); }
         .menu__social a {
           display: block; }

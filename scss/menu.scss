@@ -205,7 +205,8 @@
         
         @media ( max-width: $breakpoint ) {
             left: 20px;
-            bottom: 15px;
+            bottom: 0;
+            // bottom: 15px;
             transform: translateX(0);
             
             a {

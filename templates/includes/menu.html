@@ -1,9 +1,9 @@
 <div class="menu">
-    <div class="menu__lang">
-        {% for site in craft.app.sites.getAllSites() %}
-            <a href="{{ site.getBaseUrl }}" class="{{ site.handle }}{% if site.handle == currentSite.handle %} active{% endif %}">{{ site.handle }}</a>
-        {% endfor %}
-    </div>
+    <!--<div class="menu__lang">-->
+    <!--    {% for site in craft.app.sites.getAllSites() %}-->
+    <!--        <a href="{{ site.getBaseUrl }}" class="{{ site.handle }}{% if site.handle == currentSite.handle %} active{% endif %}">{{ site.handle }}</a>-->
+    <!--    {% endfor %}-->
+    <!--</div>-->
     <div class="menu__main" data-style="font-size: 7vmin">
         <div class="menu__accordion" id="menu-accordion-0">
             <a class="menu__title" href="/" data-category-filter=""><span>{{ 'Work' | t }}</span></a>
