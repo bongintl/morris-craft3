@@ -6,7 +6,7 @@
     <!--</div>-->
     <div class="menu__main" data-style="font-size: 7vmin">
         <div class="menu__accordion" id="menu-accordion-0">
-            <a class="menu__title" href="/?side=1" data-category-filter=""><span>{{ 'Work' | t }}</span></a>
+            <a class="menu__title" href="/" data-category-filter=""><span>{{ 'Work' | t }}</span></a>
             <div class="menu__items">
                 {% set categories = craft.categories.group('categories').all() %} 
                 {% for category in categories %}
@@ -32,7 +32,7 @@
         </div>
         <a class="menu__spacer">&nbsp;</a>
         <div class="menu__accordion" id="menu-accordion-2">
-            <a class="menu__title" href="/voices?side=1" data-category-filter=""><span>{{ 'Voices' | t }}</span></a>
+            <a class="menu__title" href="/voices" data-category-filter=""><span>{{ 'Voices' | t }}</span></a>
             <div class="menu__items">
                 {% set categories = craft.categories.group('voicesCategories').all() %} 
                 {% for category in categories %}

@@ -603,9 +603,6 @@ a:hover, .menu__social a:hover {
   .menu__items {
     display: flex;
     flex-direction: column; }
-    @media (max-width: 640px) {
-      .menu__items {
-        display: block !important; } }
   .menu__title, .menu__item {
     cursor: pointer;
     display: inline-block; }
@@ -643,6 +640,8 @@ a:hover, .menu__social a:hover {
       border-bottom-color: black; }
   .menu__spacer {
     font-size: 0.15em; }
+    .page--small .menu__spacer {
+      display: none; }
   .menu__search {
     background: transparent;
     background-image: url("search.svg");
@@ -707,7 +706,8 @@ a:hover, .menu__social a:hover {
   min-height: 100vh;
   padding-bottom: 20px;
   display: flex;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  align-content: flex-start; }
   .work a {
     color: black;
     display: block; }
@@ -1026,9 +1026,9 @@ div.asset {
     display: block;
     font-weight: 500;
     cursor: pointer;
-    display: flex;
-    align-items: center; }
+    display: flex; }
     .map-filters__category:before {
+      margin-top: 0.3rem;
       content: "";
       display: block;
       width: 0.8rem;
@@ -1050,9 +1050,9 @@ div.asset {
 
 .map-views__view {
   cursor: pointer;
-  display: flex;
-  align-items: center; }
+  display: flex; }
   .map-views__view:before {
+    margin-top: 0.3rem;
     content: "";
     display: block;
     width: 0.8rem;
@@ -1101,6 +1101,31 @@ div.asset {
     .map-container__overlay_active {
       opacity: 1;
       pointer-events: visible; }
+  .map-container__preview {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    line-height: 1.1;
+    transition: opacity 0.2s;
+    cursor: pointer;
+    padding: 15px;
+    color: inherit;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s; }
+    .page--large .map-container__preview {
+      font-size: 25px; }
+    .page--medium .map-container__preview {
+      font-size: 21px; }
+    .page--small .map-container__preview {
+      font-size: 15px; }
+      @media (max-width: 640px) {
+        .page--small .map-container__preview {
+          font-size: 21px; } }
+    .map-container__preview_active {
+      pointer-events: visible;
+      opacity: 1; }
 
 .map-item {
   position: absolute;
@@ -1137,7 +1162,7 @@ div.asset {
       opacity: 1;
       pointer-events: visible; }
     .page--small .map-item__content {
-      width: 60vw; }
+      display: none; }
   .map-item__dot {
     width: 0.8rem;
     height: 0.8rem;

@@ -5,7 +5,8 @@ var { BREAKPOINT } = require('../config');
 var states = [ false, false ];
 
 module.exports = page => {
-    if ( window.innerWidth < BREAKPOINT ) return;
+//    if ( window.innerWidth < BREAKPOINT ) return;
+
     var accordions = [ ...page.querySelectorAll('.menu__accordion') ];
     var items = i => $( '.menu__items', accordions[ i ] );
     var set = ( i, state, duration = 'slow' ) => {

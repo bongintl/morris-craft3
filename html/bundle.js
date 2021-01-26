@@ -62,9 +62,10 @@ module.exports = page => {
         el.addEventListener( 'click', e => {
             filter( 'categories', el.dataset.categoryFilter );
             categoryFilters.forEach( el => el.classList.remove('menu__item--active'));
-            if ( el.dataset.categoryFilter !== '' ) el.classList.add('menu__item--active')
-            // e.stopPropagation();
-            panels.focus( 1 );
+            if ( el.dataset.categoryFilter !== '' ) {
+                el.classList.add('menu__item--active')
+                panels.focus( 1 );
+            }
         })
     })
     page.querySelectorAll('.menu__search--input').forEach( input => {
@@ -101,6 +102,7 @@ module.exports = ( ctx, next ) => {
 },{"../config":11,"./accordion":1,"./asset":2,"./filter":3,"./map/map":5,"./menu":7,"./slide-toggle":8,"./title":9,"./vw":10}],5:[function(require,module,exports){
 const styles = require('./mapStyles.js')
 const loadScript = require('../../utils/loadScript');
+const panels = require('../../panels');
 
 const dispatch = (eventName, detail) =>
     window.dispatchEvent(new CustomEvent(eventName, { detail }))
@@ -139,10 +141,13 @@ const initMap = (containerEl, page) => {
     }
     
     class MocoOverlay extends OverlayView {
-        constructor (elements) {
+        constructor () {
             super()
-            this.items = elements.map(element => ({
+            const mapItems = [...containerEl.querySelectorAll('.map-item')];
+            const previews = [...containerEl.querySelectorAll('.map-container__preview')];
+            this.items = mapItems.map((element, i) => ({
                 element,
+                previewElement: previews[i],
                 latLng: new LatLng(Number( element.dataset.lat ), Number( element.dataset.lng )),
                 category: element.dataset.category
             }))
@@ -152,7 +157,7 @@ const initMap = (containerEl, page) => {
                 e.stopPropagation();
                 this.setActive(null)
             });
-            elements.forEach((element, i) => {
+            this.items.forEach(({ element }, i) => {
                 element.addEventListener('click', e => {
                     e.stopPropagation();
                     this.setActive(i)
@@ -181,13 +186,21 @@ const initMap = (containerEl, page) => {
                 if ( filterState[item.category] ) points.push(item.latLng);
             })
             if (points.length) containPoints(points);
+            panels.focus(1)
         }
         setActive (index) {
-            this.items.forEach((item, i) => item.element.classList.toggle("map-item_active", i === index));
+            this.items.forEach((item, i) => {
+                item.element.classList.toggle("map-item_active", i === index)
+                item.previewElement.classList.toggle("map-container__preview_active", i === index)
+            });
             this.containerOverlay.classList.toggle('map-container__overlay_active', index !== null)
+            if ( index !== null && window.innerWidth < 768) {
+                panels.focus(1)
+                map.panTo(this.items[index].latLng)
+            }
         }
     }
-    const overlay = new MocoOverlay([...containerEl.querySelectorAll('.map-item')]);
+    const overlay = new MocoOverlay();
     overlay.setMap(map);
     
     const controls = containerEl.querySelector(".map-container__controls")
@@ -263,7 +276,7 @@ module.exports = (page, context) => {
     }
 }
  
-},{"../../utils/loadScript":18,"./mapStyles.js":6}],6:[function(require,module,exports){
+},{"../../panels":15,"../../utils/loadScript":18,"./mapStyles.js":6}],6:[function(require,module,exports){
 exports.default = [
     {
         "featureType": "administrative",
@@ -366,7 +379,8 @@ var { BREAKPOINT } = require('../config');
 var states = [ false, false ];
 
 module.exports = page => {
-    if ( window.innerWidth < BREAKPOINT ) return;
+//    if ( window.innerWidth < BREAKPOINT ) return;
+
     var accordions = [ ...page.querySelectorAll('.menu__accordion') ];
     var items = i => $( '.menu__items', accordions[ i ] );
     var set = ( i, state, duration = 'slow' ) => {
@@ -493,14 +507,15 @@ var menu = () => split( logoPlusOffset() );
 var center = () => split( window.innerWidth / 2 );
 var mobilePanel = () => window.innerWidth - REM * 2;
 var mobile = () => double( mobilePanel() );
-var mobileMenu = () => [ logoPlusOffset(), mobilePanel() ];
+var mobileMenu = () => [ window.innerWidth / 2, mobilePanel() ];
+var mobileSlider = () => [logoPlusOffset(), mobilePanel()];
 
 var layout = ( mobileFn, desktopFn ) => () => window.innerWidth < BREAKPOINT ? mobileFn() : desktopFn();
 
 module.exports = {
     default: layout( mobile, center ),
-    menu: layout( mobile, center ),
-    slider: layout( mobileMenu, menu )
+    menu: layout( mobileMenu, center ),
+    slider: layout( mobileSlider, menu )
 }
 },{"./config":11}],13:[function(require,module,exports){
 require('custom-event-polyfill');
@@ -549,7 +564,8 @@ var route = ( path, panelSizes ) => {
     // page.exit( path, wrap(() => document.body.classList.remove( 'route_' + name )))
 }
 
-// route( '/', layouts.menu, 'home' )
+route( '/', layouts.menu )
+route( '/voices', layouts.menu )
 // route( '/contact', layouts.menu, 'home' )
 // route( '/work/:slug', layouts.default, 'work' )
 // route( '/index.php?p=contact', layouts.default, 1 )

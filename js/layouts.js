@@ -11,12 +11,13 @@ var menu = () => split( logoPlusOffset() );
 var center = () => split( window.innerWidth / 2 );
 var mobilePanel = () => window.innerWidth - REM * 2;
 var mobile = () => double( mobilePanel() );
-var mobileMenu = () => [ logoPlusOffset(), mobilePanel() ];
+var mobileMenu = () => [ window.innerWidth / 2, mobilePanel() ];
+var mobileSlider = () => [logoPlusOffset(), mobilePanel()];
 
 var layout = ( mobileFn, desktopFn ) => () => window.innerWidth < BREAKPOINT ? mobileFn() : desktopFn();
 
 module.exports = {
     default: layout( mobile, center ),
-    menu: layout( mobile, center ),
-    slider: layout( mobileMenu, menu )
+    menu: layout( mobileMenu, center ),
+    slider: layout( mobileSlider, menu )
 }

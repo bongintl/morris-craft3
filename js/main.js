@@ -44,7 +44,8 @@ var route = ( path, panelSizes ) => {
     // page.exit( path, wrap(() => document.body.classList.remove( 'route_' + name )))
 }
 
-// route( '/', layouts.menu, 'home' )
+route( '/', layouts.menu )
+route( '/voices', layouts.menu )
 // route( '/contact', layouts.menu, 'home' )
 // route( '/work/:slug', layouts.default, 'work' )
 // route( '/index.php?p=contact', layouts.default, 1 )

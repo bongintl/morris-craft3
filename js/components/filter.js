@@ -32,9 +32,10 @@ module.exports = page => {
         el.addEventListener( 'click', e => {
             filter( 'categories', el.dataset.categoryFilter );
             categoryFilters.forEach( el => el.classList.remove('menu__item--active'));
-            if ( el.dataset.categoryFilter !== '' ) el.classList.add('menu__item--active')
-            // e.stopPropagation();
-            panels.focus( 1 );
+            if ( el.dataset.categoryFilter !== '' ) {
+                el.classList.add('menu__item--active')
+                panels.focus( 1 );
+            }
         })
     })
     page.querySelectorAll('.menu__search--input').forEach( input => {

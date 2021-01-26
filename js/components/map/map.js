@@ -1,5 +1,6 @@
 const styles = require('./mapStyles.js')
 const loadScript = require('../../utils/loadScript');
+const panels = require('../../panels');
 
 const dispatch = (eventName, detail) =>
     window.dispatchEvent(new CustomEvent(eventName, { detail }))
@@ -38,10 +39,13 @@ const initMap = (containerEl, page) => {
     }
     
     class MocoOverlay extends OverlayView {
-        constructor (elements) {
+        constructor () {
             super()
-            this.items = elements.map(element => ({
+            const mapItems = [...containerEl.querySelectorAll('.map-item')];
+            const previews = [...containerEl.querySelectorAll('.map-container__preview')];
+            this.items = mapItems.map((element, i) => ({
                 element,
+                previewElement: previews[i],
                 latLng: new LatLng(Number( element.dataset.lat ), Number( element.dataset.lng )),
                 category: element.dataset.category
             }))
@@ -51,7 +55,7 @@ const initMap = (containerEl, page) => {
                 e.stopPropagation();
                 this.setActive(null)
             });
-            elements.forEach((element, i) => {
+            this.items.forEach(({ element }, i) => {
                 element.addEventListener('click', e => {
                     e.stopPropagation();
                     this.setActive(i)
@@ -80,13 +84,21 @@ const initMap = (containerEl, page) => {
                 if ( filterState[item.category] ) points.push(item.latLng);
             })
             if (points.length) containPoints(points);
+            panels.focus(1)
         }
         setActive (index) {
-            this.items.forEach((item, i) => item.element.classList.toggle("map-item_active", i === index));
+            this.items.forEach((item, i) => {
+                item.element.classList.toggle("map-item_active", i === index)
+                item.previewElement.classList.toggle("map-container__preview_active", i === index)
+            });
             this.containerOverlay.classList.toggle('map-container__overlay_active', index !== null)
+            if ( index !== null && window.innerWidth < 768) {
+                panels.focus(1)
+                map.panTo(this.items[index].latLng)
+            }
         }
     }
-    const overlay = new MocoOverlay([...containerEl.querySelectorAll('.map-item')]);
+    const overlay = new MocoOverlay();
     overlay.setMap(map);
     
     const controls = containerEl.querySelector(".map-container__controls")

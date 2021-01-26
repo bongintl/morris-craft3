@@ -44,13 +44,15 @@
 {% set id_right = 'map_right' %}
 {% block right %}
     
+    {% set mapEntries = craft.entries({
+        section: null,
+        mapLocation: ":notempty:",
+        limit: null
+    }).all() %}
+    
     <div class="map-container" data-api-key="{{ craft.simpleMap.getMapToken }}">
         <div class="map-container__map"></div>
-        {% for entry in craft.entries({
-            section: 'work',
-            mapLocation: ":notempty:",
-            limit: null
-        }).all() %}
+        {% for entry in mapEntries %}
             {% set category = entry.mapCategory.first %}
             {% set color = category ? category.color : null %}
             <div
@@ -80,9 +82,28 @@
             <div class="zoom-in">+</div>
             <div class="zoom-out">–</div>
         </div>
-        <div class="map-container__preview">
-            
-        </div>
+        {% for entry in mapEntries %}
+            {% set category = entry.mapCategory.first %}
+            {% set color = category ? category.color : null %}
+            <a
+                class="map-container__preview"
+                style="color: {{ color }}"
+                href="{{ entry.url }}"
+            >
+                {% set thumb = entry.thumbnail[ 0 ] %}
+                {% set orient = thumb.width <= thumb.height ? 'portrait' : 'landscape' %}
+                <div class="map-item__image entry__image--{{ orient }}">
+                    {% include 'includes/asset' with {
+                        asset: thumb,
+                        fit: orient == 'portrait' ? 'contain' : 'cover'
+                    } %}       
+                </div>
+                <div class="map-item__caption">
+                    <span class="map-item__title">{{ entry.title }}</span><br>
+                    <span class="map-item__location">{{ entry.location }}</span>
+                </div>
+            </a>
+        {% endfor %}
     </div>
     
 {% endblock %}

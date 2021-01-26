@@ -75,10 +75,10 @@
     &__items {
         display: flex;
         flex-direction: column;
-        
-        @media (max-width: $breakpoint){
-            display: block !important;
-        }
+                
+        // @media (max-width: $breakpoint){
+        //     display: block !important;
+        // }
     }
 
     
@@ -133,6 +133,9 @@
     
     &__spacer {
         font-size: 0.15em;
+        .page--small & {
+            display: none;
+        }
     }
     
     &__search {
