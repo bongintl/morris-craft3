@@ -4,8 +4,8 @@
 .DS_Store
 
 node_modules
-web/assets
-web/cpresources
+html/assets
+html/cpresources
 
 *.sql
 

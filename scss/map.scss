@@ -10,6 +10,9 @@ $dot-size: 0.8rem;
         height: $dot-size;
         margin-right: $dot-size;
         border-radius: 100vw;
+        flex-grow: 0;
+        flex-shrink: 0;
+        box-sizing: border-box;
         @content;
     }
 }
@@ -101,6 +104,9 @@ $dot-size: 0.8rem;
         line-height: 0.8;
         align-items: center;
         cursor: pointer;
+        .page--small & {
+            display: none;
+        }
     }
     &__overlay {
         position: absolute;
@@ -168,6 +174,14 @@ $dot-size: 0.8rem;
         background-color: black;
         flex-shrink: 0;
         flex-grow: 0;
+        &:before {
+            content: "";
+            position: absolute;
+            width: 300%;
+            height: 300%;
+            top: -100%;
+            left: -100%;
+        }
     }
     &_active {
         z-index: 10;
@@ -175,5 +189,16 @@ $dot-size: 0.8rem;
     &_hidden {
         opacity: 0;
         pointer-events: none;
+    }
+    &__image {
+        padding-bottom: 70%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        margin-bottom: 5px;
+        background-color: rgba(0,0,0,0.1);
+        &--portrait {
+            background-size: contain;
+        }
     }
 }

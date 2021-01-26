@@ -1035,6 +1035,9 @@ div.asset {
       height: 0.8rem;
       margin-right: 0.8rem;
       border-radius: 100vw;
+      flex-grow: 0;
+      flex-shrink: 0;
+      box-sizing: border-box;
       background-color: transparent;
       transition: background-color 0.2s; }
     .map-filters__category_active:before {
@@ -1056,6 +1059,9 @@ div.asset {
     height: 0.8rem;
     margin-right: 0.8rem;
     border-radius: 100vw;
+    flex-grow: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
     border: 1px solid black;
     background-color: transparent;
     transition: background-color 0.2s; }
@@ -1080,6 +1086,8 @@ div.asset {
     line-height: 0.8;
     align-items: center;
     cursor: pointer; }
+    .page--small .map-container__controls {
+      display: none; }
   .map-container__overlay {
     position: absolute;
     width: 300vw;
@@ -1137,8 +1145,24 @@ div.asset {
     background-color: black;
     flex-shrink: 0;
     flex-grow: 0; }
+    .map-item__dot:before {
+      content: "";
+      position: absolute;
+      width: 300%;
+      height: 300%;
+      top: -100%;
+      left: -100%; }
   .map-item_active {
     z-index: 10; }
   .map-item_hidden {
     opacity: 0;
     pointer-events: none; }
+  .map-item__image {
+    padding-bottom: 70%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.1); }
+    .map-item__image--portrait {
+      background-size: contain; }

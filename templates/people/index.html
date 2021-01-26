@@ -22,9 +22,7 @@
         {% for entry in director_entries %}
             
             {% set thumb = entry.portrait.one() %}
-            {% if thumb|length %}
-            {% set orient = thumb.width <= thumb.height ? 'portrait' : 'landscape' %}
-            {% endif %}
+           
          
             <a
                 class="entry entry--people"
@@ -36,7 +34,7 @@
                 {% if thumb|length %}
                         {% include 'includes/asset' with {
                             asset: thumb,
-                            fit: orient == 'portrait' ? 'contain' : 'cover'
+                            fit: 'cover'
                         } %}   
                 {% endif %}
                 </div>
@@ -68,10 +66,7 @@
         
             {% set thumb = entry.portrait.one() %}
 
-            {% if thumb|length %}
-            {% set orient = thumb.width <= thumb.height ? 'portrait' : 'landscape' %}
-            {% endif %}
-
+        
   
             <div class="entry entry--people entry--accordion">
 
@@ -80,7 +75,7 @@
                 {% if thumb|length %}
                         {% include 'includes/asset' with {
                             asset: thumb,
-                            fit: orient == 'portrait' ? 'contain' : 'cover'
+                            fit: 'cover'
                         } %}   
                 {% endif %}
                 </div>
