@@ -1,0 +1,41 @@
+enableVersioning: true
+entryTypes:
+  3f538bbb-069c-4426-8463-fcdaabec52c3:
+    fieldLayouts:
+      796c2c9a-c192-48f9-b4ca-dc1298671d17:
+        tabs:
+          -
+            fields:
+              10736278-4a3b-4269-b457-bcfb3c3302d5:
+                required: false
+                sortOrder: 1
+              27a42825-a247-4f3e-9426-5dfbf106c6b8:
+                required: false
+                sortOrder: 2
+            name: Content
+            sortOrder: 1
+    handle: research
+    hasTitleField: true
+    name: Research
+    sortOrder: 1
+    titleFormat: null
+    titleLabel: Title
+handle: research
+name: Research
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: in-company/_entry
+    uriFormat: '{% if object.level == 1 %}research/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: in-company/_entry
+    uriFormat: '{% if object.level == 1 %}research/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+structure:
+  maxLevels: null
+  uid: 725b6b02-3ee2-417b-bc0f-2606746814aa
+type: structure

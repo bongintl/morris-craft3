@@ -1,0 +1,15 @@
+contentColumnType: text
+fieldGroup: d414203e-5326-4192-9489-86cc9fa0d52d
+handle: contactPhone
+instructions: ''
+name: 'Contact Phone'
+searchable: true
+settings:
+  charLimit: ''
+  columnType: text
+  initialRows: '4'
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

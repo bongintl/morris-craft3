@@ -6,27 +6,48 @@
     <!--</div>-->
     <div class="menu__main" data-style="font-size: 7vmin">
         <div class="menu__accordion" id="menu-accordion-0">
-            <a class="menu__title" href="/" data-category-filter=""><span>{{ 'Work' | t }}</span></a>
+            <a class="menu__title" href="/?side=1" data-category-filter=""><span>{{ 'Work' | t }}</span></a>
             <div class="menu__items">
                 {% set categories = craft.categories.group('categories').all() %} 
                 {% for category in categories %}
-                    <a class="menu__item" data-category-filter='{{ category.slug }}'><span>{{ category.title }}</span></a>
+                    <a class="menu__item" data-category-filter='{{ category.slug }}' href="/?side=1"><span>{{ category.title }}</span></a>
                 {% endfor %}
-                <input type="text" class="menu__search" required="required"/>
             </div>
         </div>
         <a class="menu__spacer">&nbsp;</a>
         <div class="menu__accordion" id="menu-accordion-1">
-            <a class="menu__title" data-category-filter=""><span>{{ 'Company' | t }}</span></a>
+            <a class="menu__title"><span>{{ 'Company' | t }}</span></a>
             <div class="menu__items">
-                {% for handle in [ 'about', 'people', 'in-company', 'atLarge', 'contact' ] %}
+                
+                <a class="menu__item" href="/about?side=1" data-category-filter=''><span>{{ 'About' | t }}</span></a>
+                <a class="menu__item" href="/people?side=1" data-category-filter=''><span>{{ 'People' | t }}</span></a>
+
+                {% for handle in [ 'contact' ] %}
                     {% set entry = craft.entries.section( handle ).one %}
                     {% if entry %}
-                        <a class="menu__item" href="{{ entry.url }}"><span>{{ entry.title }}</span></a>
+                        <a class="menu__item" href="{{ entry.url }}" data-side="{{ handle == 'contact' ? 1 : 0 }}"><span>{{ entry.title }}</span></a>
                     {% endif %}
                 {% endfor %}
             </div>
         </div>
+        <a class="menu__spacer">&nbsp;</a>
+        <div class="menu__accordion" id="menu-accordion-2">
+            <a class="menu__title" href="/voices?side=1" data-category-filter=""><span>{{ 'Voices' | t }}</span></a>
+            <div class="menu__items">
+                {% set categories = craft.categories.group('voicesCategories').all() %} 
+                {% for category in categories %}
+                    <a class="menu__item" data-category-filter='{{ category.slug }}' href="/voices?side=1"><span>{{ category.title }}</span></a>
+                {% endfor %}
+            </div>
+        </div>
+        <a class="menu__spacer">&nbsp;</a>
+        <a class="menu__title" href="/map?side=1"><span>{{ 'Map' | t }}</span></a>
+        
+        <a class="menu__spacer">&nbsp;</a>
+        <a class="" href="/all">
+            <input type="text" class="menu__search menu__search--input" required="required"/>
+        </a>
+
     </div>
     <div class="menu__social">
         <a href="{{ meta.metaInstagram }}" class="menu__social--icon" target="_blank">{% include 'includes/icons/insta.html' %}</a>

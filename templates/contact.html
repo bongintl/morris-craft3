@@ -10,7 +10,7 @@
 {% set id_right = 'contact' %}
 {% block right %}
 
-{% set items = entry.contactLocation.all() %}
+    {% set items = entry.contactLocation.all() %}
     <div class="contact">
         {% for item in items %}
             <div class="contact__address{% if loop.last %} contact__address--last{% endif %}">
@@ -18,18 +18,20 @@
                 <a href="mailto:{{ item.email }}">{{ item.email }}</a>
             </div>
         {% endfor %}
+
+
         {% for item in items %}
+
             <div class="contact__map">
                 <iframe
                   frameborder="0" style="border:0"
                   src="https://www.google.com/maps/embed/v1/place?key={{ craft.simpleMap.getMapToken }}&q={{ item.map.address | url_encode }}" allowfullscreen>
                 </iframe>
             </div>
-   
         {% endfor %}
         <div class="row row__footnote">
             <small>
-                Morris + Company is committed to collecting and using personal information responsibly, proportionately, securely and fairly. If you would like further information on our Privacy Policy in relation to GDPR, please contact <a href="mailto:c.sorensen@morrisand.company">c.sorensen@morrisand.company</a>
+                {{ entry.gdprText }}
             </small>
         </div>
         <div>&nbsp;</div>

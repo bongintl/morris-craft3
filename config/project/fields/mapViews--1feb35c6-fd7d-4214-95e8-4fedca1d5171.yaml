@@ -1,0 +1,14 @@
+contentColumnType: string
+fieldGroup: af21456f-2415-44b4-a3d3-2f46d775c630
+handle: mapViews
+instructions: ''
+name: 'Map Views'
+searchable: true
+settings:
+  contentTable: '{{%matrixcontent_mapviews}}'
+  maxBlocks: ''
+  minBlocks: ''
+  propagationMethod: all
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

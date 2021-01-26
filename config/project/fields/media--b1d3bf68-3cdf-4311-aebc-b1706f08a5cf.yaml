@@ -1,0 +1,18 @@
+contentColumnType: text
+fieldGroup: ec443349-3fde-4a4c-9fef-a04902f8d66c
+handle: media
+instructions: ''
+name: Media
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: null
+  code: ''
+  columnType: null
+  initialRows: '4'
+  multiline: ''
+  placeholder: ''
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

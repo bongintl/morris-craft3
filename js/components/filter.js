@@ -37,7 +37,11 @@ module.exports = page => {
             panels.focus( 1 );
         })
     })
-    page.querySelectorAll('.menu__search').forEach( input => {
+    page.querySelectorAll('.menu__search--input').forEach( input => {
+
+        
+        
+        
         input.addEventListener( 'input', () => filter( 'tags', input.value ) );
         input.addEventListener( 'keydown', e => {
             if ( e.keyCode === 13 ) panels.focus( 1 );

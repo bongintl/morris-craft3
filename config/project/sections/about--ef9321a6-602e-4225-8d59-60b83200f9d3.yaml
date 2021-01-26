@@ -1,0 +1,38 @@
+enableVersioning: true
+entryTypes:
+  29efbd58-2ab6-4f2c-a661-fc72e8217817:
+    fieldLayouts:
+      cf1624fc-2479-4ac6-a3d9-204bec4db751:
+        tabs:
+          -
+            fields:
+              27a42825-a247-4f3e-9426-5dfbf106c6b8:
+                required: false
+                sortOrder: 1
+              306d6a6e-5418-4df6-acdd-80e4c92bceda:
+                required: false
+                sortOrder: 2
+            name: Content
+            sortOrder: 1
+    handle: about
+    hasTitleField: true
+    name: About
+    sortOrder: 1
+    titleFormat: '{section.name|raw}'
+    titleLabel: Title
+handle: about
+name: About
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: about
+    uriFormat: about
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: about
+    uriFormat: about
+type: single

@@ -1,0 +1,24 @@
+fieldLayouts:
+  aa56fe5d-a7b4-4cf8-bcba-ef2091f78f41:
+    tabs:
+      -
+        fields:
+          ff225722-8236-4b8e-a7ab-c52e6dd21668:
+            required: false
+            sortOrder: 1
+        name: Category
+        sortOrder: 1
+handle: mapCategories
+name: 'Map Categories'
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    hasUrls: true
+    template: ''
+    uriFormat: 'map-categories/{slug}'
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    hasUrls: true
+    template: ''
+    uriFormat: 'map-categories/{slug}'
+structure:
+  maxLevels: 1
+  uid: 0c80baa7-9aea-4f8f-ad9c-34e8dc56ea58

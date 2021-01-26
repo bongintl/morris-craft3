@@ -1,0 +1,19 @@
+enableVersioning: true
+handle: aboutEntries
+name: 'About Entries'
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: work/_entry
+    uriFormat: '{% if object.level == 1 %}about/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: work/_entry
+    uriFormat: '{% if object.level == 1 %}about/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+structure:
+  maxLevels: null
+  uid: b59f7308-f7e6-4ab0-97df-85889ace9974
+type: structure

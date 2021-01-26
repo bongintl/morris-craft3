@@ -1,0 +1,23 @@
+contentColumnType: string
+fieldGroup: a4f1c8af-a0bb-4f6c-ab4b-a7db65c8146b
+handle: mapCategory
+instructions: ''
+name: 'Map Category'
+searchable: true
+settings:
+  allowLimit: false
+  allowMultipleSources: false
+  allowSelfRelations: false
+  branchLimit: '1'
+  limit: null
+  localizeRelations: false
+  selectionLabel: ''
+  showSiteMenu: true
+  source: 'group:07b7ac2a-c24a-4d09-9488-20a71297aaba'
+  sources: '*'
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Categories

@@ -1,0 +1,175 @@
+$dot-size: 0.8rem;
+
+@mixin dot {
+    display: flex;
+    align-items: center;
+    &:before {
+        content: "";
+        display: block;
+        width: $dot-size;
+        height: $dot-size;
+        margin-right: $dot-size;
+        border-radius: 100vw;
+        @content;
+    }
+}
+
+.map-title {
+    display: none;
+    @media ( min-width: $breakpoint ) {
+        display: inline;
+    }
+}
+
+.map-controls {
+    background: $bg-home;
+    min-height: 100%;
+    padding: 20px 20px 50px 20px;
+    padding-bottom: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    .page--large & {
+        font-size: 25px;
+    }
+    .page--medium & {
+        font-size: 21px;
+    }
+    .page--small & {
+        font-size: 15px;
+        @media (max-width: $breakpoint) {
+            font-size: 21px;
+        }
+    }
+}
+
+.map-filters {
+    padding-bottom: 1.1em;
+    &__title {
+        font-weight: 500;
+    }
+    &__category {
+        display: block;
+        font-weight: 500;
+        cursor: pointer;
+        @include dot {
+            background-color: transparent;
+            transition: background-color 0.2s;
+        }
+        &_active:before {
+            background-color: currentColor;
+        }
+    }
+    &__clear {
+        cursor: pointer;
+    }
+}
+
+.map-views {
+    &__title {
+        font-weight: 500;
+    }
+    &__view {
+        cursor: pointer;
+        @include dot {
+            border: 1px solid black;
+            background-color: transparent;
+            transition: background-color 0.2s;
+        };
+        &:hover:before {
+            background-color: currentColor;
+        }
+    }
+}
+
+.map-container {
+    background: $bg-home;
+    width: 100%;
+    height: 100%;
+    &__map {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    &__controls {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 80px;
+        display: flex;
+        flex-direction: column;
+        line-height: 0.8;
+        align-items: center;
+        cursor: pointer;
+    }
+    &__overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        &_active {
+            opacity: 1;
+            pointer-events: visible;
+        }
+    }
+}
+
+.map-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    width: $dot-size;
+    height: $dot-size;
+    margin-top: $dot-size * -0.5;
+    margin-left: $dot-size * -0.5;
+    font-size: 25px;
+    line-height: 1.1;
+    transition: opacity 0.2s;
+    cursor: pointer;
+    .page--large & {
+        font-size: 25px;
+    }
+    .page--medium & {
+        font-size: 21px;
+    }
+    .page--small & {
+        font-size: 15px;
+        @media (max-width: $breakpoint) {
+            font-size: 21px;
+        }
+    }
+    &__content {
+        position: absolute;
+        bottom: 100%;
+        width: 25vw;
+        margin-bottom: 5px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .3s;
+        .map-item_active & {
+            opacity: 1;
+            pointer-events: visible;
+        }
+    }
+    &__dot {
+        width: $dot-size;
+        height: $dot-size;
+        border-radius: 50%;
+        background-color: black;
+        flex-shrink: 0;
+        flex-grow: 0;
+    }
+    &_active {
+        z-index: 10;
+    }
+    &_hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+}

@@ -1,5 +1,6 @@
 .entry {
-    float: left;
+    // float: left;
+
     @media (max-width: $breakpoint) {
         margin-bottom: 20px;
     }
@@ -9,8 +10,9 @@
         margin-right: 20px;
         margin-bottom: 20px;
         // min-height: 320px;
-        height: 0;
-        padding-bottom: 33%;
+        // height: 0;
+        // padding-bottom: 33%;
+        
     }
 
     .page--medium & {
@@ -18,8 +20,8 @@
         margin-right: 20px;
         margin-bottom: 30px;
         // min-height: 320px;
-        height: 0;
-        padding-bottom: 45%;
+        // height: 0;
+        // padding-bottom: 45%;
     }
     
     .page--small & {
@@ -28,8 +30,14 @@
         margin-bottom: 80px;
         min-height: initial;
     }
-    
-    
+
+    &--accordion {
+        cursor: pointer;
+        
+        .entry__body {
+            display: none;
+        }
+    }
         
     &:hover {
         .entry__title, .entry__location {
@@ -41,9 +49,10 @@
         margin-top: 5px;
         padding: 0 10px;
     }
-        
+
     &__title, 
-    &__location {
+    &__location, 
+    &__role {
         border-bottom: 1px solid rgba(0,0,0,0);    
         font-size: 25px;
         line-height: 1.1;
@@ -63,15 +72,16 @@
                 font-size: 21px;
             }
         }
-        
-        
     }
+    
+    
     
     
     
   
     
     &__image {
+        background-color: white;
         width: 100%;
         height: 0;
         padding-bottom: 70%;
@@ -83,6 +93,94 @@
             background-size: contain;
         }
         
-     
+
     }
+    
+    
+    
+    &__body {
+        margin-top: 1em;
+        padding: 0 10px;
+        
+        a {
+            word-break: break-all;
+        }
+        
+        p {
+            margin-bottom: 1em;
+        }
+    }
+    
+    &__contact {
+        margin-bottom: 1em;
+    }
+        
+    &__divider {
+        display: none;
+        
+        .page--small & {
+            display: block;
+            font-size: 25px;
+            
+            &:last-of-type {
+                margin-top: 30px;
+            }
+        }
+    }
+        
+    &--people {
+        // .page--small & {
+        //     display: none;
+        // }
+            
+        .page--small & {
+            .entry__image,
+            .entry__caption {
+                display: none;
+            }
+        }
+    
+
+        .entry__image--secondary,
+        .entry__caption--secondary {
+            display: none;
+
+            .page--small & {
+                display: block;
+            }
+        }
+        
+        .entry__image--secondary {
+            margin-bottom: 15px;
+        }
+        
+
+        
+        .page--small & {
+            margin-bottom: 0;
+            
+            .entry__title,
+            .entry__role {
+                font-size: 15px;
+                @media (max-width: $breakpoint) {
+                    font-size: 17px;
+                }
+            }
+            
+            .entry__caption--secondary {
+                margin-top: 5px;
+                padding: 0 10px 0 15px;
+            }
+        
+            .entry__body {
+                margin-bottom: 30px;
+            }
+            
+            .entry__text {
+                margin-left: 25px;
+            }
+ 
+        }
+    }
+        
 }

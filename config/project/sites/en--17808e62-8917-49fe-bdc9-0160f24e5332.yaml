@@ -1,0 +1,8 @@
+baseUrl: $SITE_URL
+handle: en
+hasUrls: true
+language: en-GB
+name: Morris+Company
+primary: true
+siteGroup: 6fcb4614-b5c2-4484-84db-fdd3f251b981
+sortOrder: 1

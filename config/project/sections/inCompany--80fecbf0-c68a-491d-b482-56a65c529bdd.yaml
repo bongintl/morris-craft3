@@ -1,0 +1,25 @@
+enableVersioning: true
+entryTypes:
+  732786cc-c533-4f3b-98ab-ed0a417bb33c:
+    handle: inCompany
+    hasTitleField: true
+    name: 'In Company'
+    sortOrder: 1
+    titleFormat: '{section.name|raw}'
+    titleLabel: Title
+handle: inCompany
+name: 'In Company'
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: in-company
+    uriFormat: in-company
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: in-company
+    uriFormat: in-company
+type: single

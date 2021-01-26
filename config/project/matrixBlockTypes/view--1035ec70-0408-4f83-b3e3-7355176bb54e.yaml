@@ -1,0 +1,83 @@
+field: 1feb35c6-fd7d-4214-95e8-4fedca1d5171
+fieldLayouts:
+  6f82d44a-05fc-4bda-ab36-a84f16bb4a38:
+    tabs:
+      -
+        elements:
+          -
+            fieldUid: 78525d5c-5953-472e-97ac-92d235a4d383
+            instructions: null
+            label: null
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+          -
+            fieldUid: 89f83faf-6d5d-4796-a283-15ab68fb2dfa
+            instructions: null
+            label: null
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+        name: Content
+        sortOrder: 1
+fields:
+  78525d5c-5953-472e-97ac-92d235a4d383:
+    contentColumnType: text
+    fieldGroup: null
+    handle: viewName
+    instructions: ''
+    name: Name
+    searchable: true
+    settings:
+      byteLimit: null
+      charLimit: null
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+      uiMode: normal
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  89f83faf-6d5d-4796-a283-15ab68fb2dfa:
+    contentColumnType: text
+    fieldGroup: null
+    handle: location
+    instructions: ''
+    name: Location
+    searchable: false
+    settings:
+      boundary: '""'
+      boundaryRestrictionNELat: null
+      boundaryRestrictionNELng: null
+      boundaryRestrictionSWLat: null
+      boundaryRestrictionSWLng: null
+      country: null
+      countryRestriction: null
+      height: null
+      hideAddress: '1'
+      hideLatLng: null
+      hideMap: ''
+      hideSearch: '1'
+      lat: 51.272154
+      lng: 0.514951
+      maxZoom: '18'
+      minZoom: '3'
+      showCurrentLocation: ''
+      showLatLng: '1'
+      showW3WField: false
+      showW3WGrid: false
+      size: normal
+      typeRestriction: null
+      zoom: 15
+    translationKeyFormat: null
+    translationMethod: none
+    type: ether\simplemap\fields\MapField
+handle: view
+name: View
+sortOrder: 1

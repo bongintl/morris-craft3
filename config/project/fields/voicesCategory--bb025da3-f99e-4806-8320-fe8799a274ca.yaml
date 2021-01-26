@@ -1,0 +1,21 @@
+contentColumnType: string
+fieldGroup: ec443349-3fde-4a4c-9fef-a04902f8d66c
+handle: voicesCategory
+instructions: ''
+name: 'Voices Category'
+searchable: true
+settings:
+  allowLimit: false
+  allowMultipleSources: false
+  branchLimit: '1'
+  limit: null
+  localizeRelations: ''
+  selectionLabel: ''
+  source: 'group:31c64771-c8ed-455a-9d59-a31dac761076'
+  sources: '*'
+  targetSiteId: null
+  validateRelatedElements: ''
+  viewMode: null
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Categories

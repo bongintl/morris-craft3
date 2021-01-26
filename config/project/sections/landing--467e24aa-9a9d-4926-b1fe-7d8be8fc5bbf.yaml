@@ -1,0 +1,38 @@
+enableVersioning: true
+entryTypes:
+  df610c17-f03a-47a0-a4c8-e18a06708143:
+    fieldLayouts:
+      f9ae2608-25cb-4905-9e43-537f8f4616a2:
+        tabs:
+          -
+            fields:
+              462a6402-35a9-4d79-ba76-6ff341abec58:
+                required: false
+                sortOrder: 2
+              aefad57c-a464-4669-8d90-0a11e72a7ed5:
+                required: false
+                sortOrder: 1
+            name: Content
+            sortOrder: 1
+    handle: landing
+    hasTitleField: true
+    name: Landing
+    sortOrder: 1
+    titleFormat: '{section.name|raw}'
+    titleLabel: Title
+handle: landing
+name: Landing
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: landing
+    uriFormat: landing
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: landing
+    uriFormat: landing
+type: single

@@ -1,0 +1,15 @@
+contentColumnType: string
+fieldGroup: e78aa093-6e3c-4f9f-8322-bc57755b10ff
+handle: work
+instructions: ''
+name: Work
+searchable: true
+settings:
+  limit: ''
+  localizeRelations: false
+  selectionLabel: ''
+  sources:
+    - 'section:07e587f7-9a33-4cec-a60d-9f984e64255b'
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Entries

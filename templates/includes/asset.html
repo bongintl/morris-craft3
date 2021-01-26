@@ -4,6 +4,8 @@
     "asset--#{ asset.kind }",
     fit is defined ? "asset--#{ fit }" : ''
 ] | join(' ') %}
+    <img class="{{ classes }}" data-srcet="">
+{#
 {% switch asset.kind %}
     {% case 'image' %}
         {% set src = asset.getURL('xsmall') %}
@@ -33,3 +35,4 @@
     {% default %}
         Unknown asset type: {{ asset.kind }}
 {% endswitch %}
+#}

@@ -1,0 +1,13 @@
+contentColumnType: 'decimal(11,1)'
+fieldGroup: 04850218-a15b-4929-aeb6-de8fd5cbdce0
+handle: delay
+instructions: ''
+name: Delay
+searchable: true
+settings:
+  decimals: '1'
+  max: ''
+  min: '0'
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Number

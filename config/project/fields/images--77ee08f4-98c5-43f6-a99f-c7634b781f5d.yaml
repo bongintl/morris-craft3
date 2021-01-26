@@ -1,0 +1,13 @@
+contentColumnType: string
+fieldGroup: 04850218-a15b-4929-aeb6-de8fd5cbdce0
+handle: images
+instructions: ''
+name: Images
+searchable: true
+settings:
+  contentTable: '{{%matrixcontent_images}}'
+  maxBlocks: null
+  propagationMethod: all
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Matrix

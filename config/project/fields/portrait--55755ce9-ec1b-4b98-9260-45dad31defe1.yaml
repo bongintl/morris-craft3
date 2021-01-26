@@ -1,0 +1,22 @@
+contentColumnType: string
+fieldGroup: e78aa093-6e3c-4f9f-8322-bc57755b10ff
+handle: portrait
+instructions: ''
+name: Portrait
+searchable: true
+settings:
+  defaultUploadLocationSource: 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
+  defaultUploadLocationSubpath: ''
+  limit: '1'
+  localizeRelations: false
+  restrictFiles: ''
+  selectionLabel: ''
+  singleUploadLocationSource: 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
+  singleUploadLocationSubpath: ''
+  sources:
+    - 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
+  useSingleFolder: ''
+  viewMode: large
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Assets

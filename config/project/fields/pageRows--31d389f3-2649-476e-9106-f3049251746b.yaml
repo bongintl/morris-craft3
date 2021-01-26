@@ -1,0 +1,13 @@
+contentColumnType: string
+fieldGroup: 92136b82-0d1f-4a03-a503-c470758ee155
+handle: pageRows
+instructions: ''
+name: Rows
+searchable: true
+settings:
+  contentTable: '{{%matrixcontent_pagerows}}'
+  maxBlocks: null
+  propagationMethod: all
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Matrix

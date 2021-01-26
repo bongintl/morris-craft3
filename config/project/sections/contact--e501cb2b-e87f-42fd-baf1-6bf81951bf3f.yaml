@@ -1,0 +1,37 @@
+enableVersioning: true
+entryTypes:
+  7196f7cb-1044-4859-8343-79fd160c1718:
+    fieldLayouts:
+      d6b88db9-9a8d-4894-a86b-9658115c51f4:
+        tabs:
+          -
+            fields:
+              19b95dc4-7ac9-4055-a843-512c6c816bb8:
+                required: false
+                sortOrder: 1
+              d7094b33-956e-4b1e-9c26-df6cfc641598:
+                required: false
+                sortOrder: 2
+            name: Contact
+            sortOrder: 1
+    handle: contact
+    hasTitleField: true
+    name: Contact
+    sortOrder: 1
+    titleFormat: '{section.name|raw}'
+    titleLabel: Title
+handle: contact
+name: Contact
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: contact
+    uriFormat: contact
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: contact
+    uriFormat: contact
+type: single

@@ -1,0 +1,44 @@
+enableVersioning: true
+entryTypes:
+  cebf79c8-5194-461d-ae2c-53c54e3fdc64:
+    fieldLayouts:
+      72b6a4fc-f2cb-423d-9b8d-d884947cac2f:
+        tabs:
+          -
+            fields:
+              1f85f807-3133-4922-aac5-be023a8fc795:
+                required: false
+                sortOrder: 1
+              751e6779-7db8-4de3-af49-faa0a5bd57c1:
+                required: false
+                sortOrder: 2
+              77c5f6fe-79c0-4932-a7b4-beb1171b4f0e:
+                required: false
+                sortOrder: 3
+              ad8046bb-870b-4923-8dc5-fa05356faa6c:
+                required: false
+                sortOrder: 4
+            name: Content
+            sortOrder: 1
+    handle: feed
+    hasTitleField: true
+    name: Feed
+    sortOrder: 1
+    titleFormat: null
+    titleLabel: Title
+handle: feed
+name: Feed
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: feed/_entry
+    uriFormat: 'feed/{slug}'
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: feed/_entry
+    uriFormat: 'feed/{slug}'
+type: channel

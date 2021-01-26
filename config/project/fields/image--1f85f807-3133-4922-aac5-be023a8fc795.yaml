@@ -1,0 +1,21 @@
+contentColumnType: string
+fieldGroup: dfa8b3da-8e00-4e78-84c4-76dea5b226f3
+handle: image
+instructions: ''
+name: Image
+searchable: true
+settings:
+  defaultUploadLocationSource: 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
+  defaultUploadLocationSubpath: ''
+  limit: '1'
+  localizeRelations: false
+  restrictFiles: ''
+  selectionLabel: ''
+  singleUploadLocationSource: 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
+  singleUploadLocationSubpath: ''
+  sources: '*'
+  useSingleFolder: ''
+  viewMode: large
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Assets

@@ -7,11 +7,13 @@ var fns = [
     require('./accordion'),
     require('./menu'),
     require('./filter'),
-    // require('./map'),
-    require('./asset')
+    require('./map/map'),
+    require('./asset'),
+    require('./slide-toggle'),
+    // require('./contact-map')
 ]
 
 module.exports = ( ctx, next ) => {
-    fns.forEach( fn => ctx.elements.pages.forEach( page => fn( page ) ) );
+    fns.forEach( fn => ctx.elements.pages.forEach( page => fn( page, ctx ) ) );
     next();
 };

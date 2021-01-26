@@ -1,0 +1,19 @@
+enableVersioning: true
+handle: voices
+name: Voices
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: work/_entry
+    uriFormat: '{% if object.level == 1 %}voices/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: work/_entry
+    uriFormat: '{% if object.level == 1 %}voices/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+structure:
+  maxLevels: null
+  uid: 1d797484-9da8-472b-9c3b-b564984c89d9
+type: structure

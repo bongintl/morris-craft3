@@ -1,0 +1,14 @@
+contentColumnType: string
+fieldGroup: 70570246-f0a3-4045-be5d-920de34efc33
+handle: contactLocation
+instructions: ''
+name: Location
+searchable: true
+settings:
+  contentTable: '{{%matrixcontent_contactlocation}}'
+  maxBlocks: ''
+  minBlocks: ''
+  propagationMethod: all
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

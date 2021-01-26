@@ -79,54 +79,56 @@ ul {
 // link fun
 
 .color--0 {
-    a, .menu__social a, .menu__lang a.active { color: #BE9F96; }
+    a, .entry__body a, .menu__social a, .menu__lang a.active, .entry__caption--secondary { color: #BE9F96; }
     .feed { background-image: url('pattern/BE9F96.svg'); }
     .menu__social--icon svg { path: #BE9F96; fill: #BE9F96; }
 }
 
 .color--1 {
-    a, .menu__social a, .menu__lang a.active { color: #B07771; }
+    a, .entry__body a, .menu__social a, .menu__lang a.active, .entry__caption--secondary { color: #B07771; }
     .feed { background-image: url('pattern/B07771.svg'); }
     .menu__social--icon svg { path: #B07771; fill: #B07771; }
 }
 
 .color--2 {
-    a, .menu__social a, .menu__lang a.active { color: #DFCBAC; }
+    a, .entry__body a, .menu__social a, .menu__lang a.active, .entry__caption--secondary { color: #DFCBAC; }
     .feed { background-image: url('pattern/DFCBAC.svg'); }
     .menu__social--icon svg { path: #DFCBAC; fill: #DFCBAC; }
 }
 
 .color--3 {
-    a, .menu__social a, .menu__lang a.active { color: #CDB768; }
+    a, .entry__body a, .menu__social a, .menu__lang a.active, .entry__caption--secondary { color: #CDB768; }
     .feed { background-image: url('pattern/CDB768.svg'); }
     .menu__social--icon svg { path: #CDB768; fill: #CDB768; }
 }
 
 .color--4 {
-    a, .menu__social a, .menu__lang a.active { color: #7A8881; }
+    a, .entry__body a, .menu__social a, .menu__lang a.active, .entry__caption--secondary { color: #7A8881; }
     .feed { background-image: url('pattern/7A8881.svg'); }
     .menu__social--icon svg { path: #7A8881; fill: #7A8881; }
 }
 
 .color--5 {
-    a, .menu__social a, .menu__lang a.active{ color: #687172; }
+    a, .entry__body a, .menu__social a, .menu__lang a.active, .entry__caption--secondary{ color: #687172; }
     .feed { background-image: url('pattern/687172.svg'); }
     .menu__social--icon svg { path: #687172; fill: #687172; }
 }
 
 .color--6 {
-    a, .menu__social a, .menu__lang a.active { color: #AEC3D3; }
+    a, .entry__body a, .menu__social a, .menu__lang a.active, .entry__caption--secondary { color: #AEC3D3; }
     .feed { background-image: url('pattern/AEC3D3.svg'); }
     .menu__social--icon svg { path: #AEC3D3; fill: #AEC3D3; }
 }
 
 .color--7 {
-    a, .menu__social a, .menu__lang a.active { color: #D4B9A8; }
+    a, .entry__body a, .menu__social a, .menu__lang a.active, .entry__caption--secondary { color: #D4B9A8; }
     .feed { background-image: url('pattern/D4B9A8.svg '); }
     .menu__social--icon svg { path: #D4B9A8; fill: #D4B9A8; }
 }
 
-
+.black {
+    color: black !important;
+}
 
 .menu__social--icon svg {
     &:hover {

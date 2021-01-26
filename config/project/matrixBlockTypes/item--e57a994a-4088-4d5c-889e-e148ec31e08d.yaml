@@ -1,0 +1,50 @@
+field: d6f741e3-2594-4602-bef9-71db0b48ae53
+fieldLayouts:
+  a3f51adc-b288-4de0-b8c6-33ec70ba2ca6:
+    tabs:
+      -
+        fields:
+          50b5eb00-7dcc-48e6-b01c-1c5bdfc94e2e:
+            required: false
+            sortOrder: 1
+          67e0f208-ec27-4fed-92ee-b281eaf4029c:
+            required: false
+            sortOrder: 2
+        name: Content
+        sortOrder: 1
+fields:
+  50b5eb00-7dcc-48e6-b01c-1c5bdfc94e2e:
+    contentColumnType: text
+    fieldGroup: null
+    handle: workName
+    instructions: ''
+    name: Name
+    searchable: true
+    settings:
+      charLimit: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  67e0f208-ec27-4fed-92ee-b281eaf4029c:
+    contentColumnType: text
+    fieldGroup: null
+    handle: workLocation
+    instructions: ''
+    name: Location
+    searchable: true
+    settings:
+      charLimit: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+handle: item
+name: Item
+sortOrder: 1

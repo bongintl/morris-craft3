@@ -1,0 +1,66 @@
+enableVersioning: true
+entryTypes:
+  17972b91-806f-45a5-b875-0f34e756e52d:
+    fieldLayouts:
+      7a512cab-0dc7-407f-a96f-0ffe5b1591fa:
+        tabs:
+          -
+            fields:
+              0cc0853b-93e0-4e86-ac3c-0b2bdc17397f:
+                required: false
+                sortOrder: 1
+              10736278-4a3b-4269-b457-bcfb3c3302d5:
+                required: false
+                sortOrder: 2
+              1521f49f-9e58-491e-b63b-0ddd6a02ab17:
+                required: false
+                sortOrder: 7
+              27a42825-a247-4f3e-9426-5dfbf106c6b8:
+                required: false
+                sortOrder: 4
+              44083b6f-5ba3-4e3f-a049-76b30c8c2e05:
+                required: false
+                sortOrder: 6
+              989c8f4f-599f-45e2-823b-b04bfdd9124a:
+                required: false
+                sortOrder: 5
+              c5da7da4-2b2f-43c7-9e4c-a234d55c7abf:
+                required: false
+                sortOrder: 3
+            name: Content
+            sortOrder: 1
+          -
+            fields:
+              4fa17569-ae24-46b9-baa6-578174cdc4d5:
+                required: false
+                sortOrder: 1
+              76bce5b0-ad06-415e-90cf-79c7962edecc:
+                required: false
+                sortOrder: 2
+            name: Map
+            sortOrder: 2
+    handle: work
+    hasTitleField: true
+    name: Work
+    sortOrder: 1
+    titleFormat: ''
+    titleLabel: Title
+handle: work
+name: Work
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: work/_entry
+    uriFormat: '{% if object.level == 1 %}work/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: work/_entry
+    uriFormat: '{% if object.level == 1 %}work/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+structure:
+  maxLevels: null
+  uid: 5722e19a-3ba9-44ee-b292-84514e776dd8
+type: structure

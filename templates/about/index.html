@@ -1,0 +1,44 @@
+{% extends "_layout" %}
+
+{% block back %}{% endblock %}
+{% block title %}
+{% endblock %}
+
+{% set id_left = 'menu' %}
+{% block left %}
+    {% include 'includes/menu' %}
+{% endblock %}
+
+
+{% set id_right = 'about' %}
+{% block right %}
+    <div class="work">
+        {% set entries = craft.entries({ section: 'aboutEntries', with: [ 'thumbnail' ] }).all() %}
+        
+
+        {% for entry in entries %}
+            {% if entry.thumbnail|length %}
+            {% set thumb = entry.thumbnail[ 0 ] %}
+            {% endif %}
+            
+            {% set orient = thumb.width <= thumb.height ? 'portrait' : 'landscape' %}
+
+            <a
+                class="entry"
+                href="{{ entry.url }}"
+            >
+                <div class="entry__image entry__image--{{ orient }}">
+                    {% include 'includes/asset' with {
+                        asset: thumb,
+                        fit: orient == 'portrait' ? 'contain' : 'cover'
+                    } %}       
+                </div>
+                <div class="entry__caption">
+                    <span class="entry__title">{{ entry.title }}</span>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    
+    
+{% endblock %}

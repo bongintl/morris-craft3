@@ -1,0 +1,86 @@
+{% extends "_layout" %}
+
+{% block title %}
+    <h1 class="map-title">{{ entry.title }}</h1>
+{% endblock %}
+
+{% set id_left = 'map_left' %}
+
+{% block left %}
+
+    <div class="map-controls">
+        
+        <div class="map-filters">
+            <div class="map-filters__title">{{ "Filters" | t }}</div>
+            <a data-filter="" class="map-filters__clear black">{{ "Clear filters" | t }}</a>
+            {% for category in craft.categories.group("mapCategories") %}
+                <a
+                    class="map-filters__category map-filters__category_active"
+                    style="color: {{ category.color }}"
+                    data-filter="{{ category.slug }}"
+                >{{ category.title }}</a>
+            {% endfor %}
+        </div>
+        
+        <div class="map-views">
+            <div class="map-views__title">{{ "View" | t }}</div>
+            {% for view in entry.mapViews %}
+                <div
+                    class="map-views__view"
+                    data-lat="{{ view.location.lat }}"
+                    data-lng="{{ view.location.lng }}"
+                    data-zoom="{{ view.location.zoom }}"
+                >
+                    {{ view.viewName }}
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+    
+{% endblock %}
+
+
+{% set id_right = 'map_right' %}
+{% block right %}
+    
+    <div class="map-container" data-api-key="{{ craft.simpleMap.getMapToken }}">
+        <div class="map-container__map"></div>
+        {% for entry in craft.entries({
+            section: 'work',
+            mapLocation: ":notempty:",
+            limit: null
+        }).all() %}
+            {% set category = entry.mapCategory.first %}
+            {% set color = category ? category.color : null %}
+            <div
+                class="map-item"
+                data-lat="{{ entry.mapLocation.lat }}"
+                data-lng="{{ entry.mapLocation.lng }}"
+                data-category="{{ category ? category.slug : '' }}"
+            >
+                <a class="map-item__content" href="{{ entry.url }}" style="color: {{ color ?? 'inherit' }}">
+                    {% set thumb = entry.thumbnail[ 0 ] %}
+                    {% set orient = thumb.width <= thumb.height ? 'portrait' : 'landscape' %}
+                    <div class="map-item__image entry__image--{{ orient }}">
+                        {% include 'includes/asset' with {
+                            asset: thumb,
+                            fit: orient == 'portrait' ? 'contain' : 'cover'
+                        } %}       
+                    </div>
+                    <div class="map-item__caption">
+                        <span class="map-item__title">{{ entry.title }}</span><br>
+                        <span class="map-item__location">{{ entry.location }}</span>
+                    </div>
+                </a>
+                <div class="map-item__dot" style="background-color: {{ color }}"></div>
+            </div>
+        {% endfor %}
+        <div class="map-container__overlay"></div>
+        <div class="map-container__controls">
+            <div class="zoom-in">+</div>
+            <div class="zoom-out">–</div>
+        </div>
+    </div>
+    
+{% endblock %}

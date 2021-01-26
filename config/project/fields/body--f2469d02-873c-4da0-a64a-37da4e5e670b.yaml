@@ -1,0 +1,17 @@
+contentColumnType: text
+fieldGroup: 70570246-f0a3-4045-be5d-920de34efc33
+handle: body
+instructions: ''
+name: Body
+searchable: true
+settings:
+  availableTransforms: '*'
+  availableVolumes: '*'
+  cleanupHtml: '1'
+  columnType: text
+  purifierConfig: ''
+  purifyHtml: '1'
+  redactorConfig: Morris.json
+translationKeyFormat: null
+translationMethod: none
+type: craft\redactor\Field

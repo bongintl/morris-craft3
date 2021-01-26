@@ -19,7 +19,7 @@ var loadSrc = src => {
 
 module.exports = ( element, onChange = () => {} ) => {
     // if ( element instanceof HTMLVideoElement ) return;
-    var srcs = element.dataset.srcset
+    var srcs = (element.dataset.srcset || "")
         .split(',')
         .map( str => {
             var [ url, w ] = str.trim().split(' ');

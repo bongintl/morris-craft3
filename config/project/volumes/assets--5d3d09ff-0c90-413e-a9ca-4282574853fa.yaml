@@ -1,0 +1,9 @@
+handle: assets
+hasUrls: true
+name: Assets
+settings:
+  path: assets/
+  url: /assets/
+sortOrder: 1
+type: craft\volumes\Local
+url: null

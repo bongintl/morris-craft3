@@ -1,0 +1,14 @@
+handle: categories
+name: Categories
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    hasUrls: false
+    template: null
+    uriFormat: null
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    hasUrls: false
+    template: null
+    uriFormat: null
+structure:
+  maxLevels: null
+  uid: d1d42041-e2a5-44bf-a85f-53408c981714

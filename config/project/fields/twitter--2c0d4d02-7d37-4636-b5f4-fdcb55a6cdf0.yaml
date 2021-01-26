@@ -1,0 +1,15 @@
+contentColumnType: text
+fieldGroup: e78aa093-6e3c-4f9f-8322-bc57755b10ff
+handle: twitter
+instructions: 'Don’t include the @'
+name: 'Twitter Handle'
+searchable: true
+settings:
+  charLimit: ''
+  columnType: text
+  initialRows: '4'
+  multiline: ''
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

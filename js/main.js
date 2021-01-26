@@ -1,4 +1,5 @@
 require('custom-event-polyfill');
+var queryString = require('query-string');
 var page = require('page');
 
 var panels = require('./panels');
@@ -33,11 +34,10 @@ var route = ( path, panelSizes ) => {
         pages,
         components,
         wrap( ctx => {
-            // BAD!!!
-            var p = panels.animate( panelSizes(), 0 );
-            if ( ctx.elements.pages.some( p => p.id === 'contact' ) ) {
-                p.then( () => panels.focus( 1 ) );
-            }
+            var sizes = panelSizes();
+            var query = queryString.parse(ctx.querystring);
+            var side = Number(query.side || 0);
+            return panels.animate( sizes, panels.getOffset(sizes, side) );
         }),
         () => firstLoad = false
     );
@@ -48,6 +48,9 @@ var route = ( path, panelSizes ) => {
 // route( '/contact', layouts.menu, 'home' )
 // route( '/work/:slug', layouts.default, 'work' )
 // route( '/index.php?p=contact', layouts.default, 1 )
+
 route( '*', layouts.default );
 
 page();
+
+

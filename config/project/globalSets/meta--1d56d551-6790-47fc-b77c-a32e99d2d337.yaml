@@ -1,0 +1,33 @@
+fieldLayouts:
+  29b47f3f-e279-4559-889a-8177946a9242:
+    tabs:
+      -
+        fields:
+          12977d02-a508-4e1c-9fca-1ecb7aa52955:
+            required: false
+            sortOrder: 4
+          3ddb100c-7837-4d18-9b6d-79293a295a1c:
+            required: false
+            sortOrder: 2
+          408b3da8-c4c4-4dc7-b5af-9e42ccf3bf03:
+            required: false
+            sortOrder: 6
+          578e6189-2a52-4d6f-a098-284878588ab8:
+            required: false
+            sortOrder: 1
+          6dfabce5-6dca-4096-84ea-2d5c9d687542:
+            required: false
+            sortOrder: 7
+          8a4807cb-ba49-499c-83e7-c7bcada71297:
+            required: false
+            sortOrder: 5
+          bf45f312-430f-491e-93a5-fe9ab7db73ce:
+            required: false
+            sortOrder: 3
+          ed65b57d-9d3f-478d-9b18-b35a9a725fa1:
+            required: false
+            sortOrder: 8
+        name: Content
+        sortOrder: 1
+handle: meta
+name: Meta

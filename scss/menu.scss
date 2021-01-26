@@ -151,7 +151,10 @@
         
         .page--large & { border-bottom-width: 1.5px; }
         .page--medium & { border-bottom-width: 1px; }
-        .page--small & { border-bottom-width: 1px; }
+        .page--small & { 
+            border-bottom-width: 1px; 
+            display: block;
+        }
     
 
 

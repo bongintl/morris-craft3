@@ -74,13 +74,16 @@ var animate = ( sizes, offset = state.offset, duration = 600 ) => {
     }
 }
 
+var getOffset = (sizes, side) => {
+    return side === 0
+        ? 0
+        : -( ( sizes[ 0 ] + sizes[ 1 ] ) - window.innerWidth )
+}
+
 var focus = ( side, duration = 600 ) => {
     if ( state.draggable ) return;
     state.active = side;
-    var offset = side === 0
-        ? 0
-        : -( ( state.sizes[ 0 ] + state.sizes[ 1 ] ) - window.innerWidth )
-    return animate( state.sizes, offset, duration );
+    return animate( state.sizes, getOffset(state.sizes, side), duration );
 }
 
 var setDesktop = () => {
@@ -132,4 +135,4 @@ onDrag( handle,
     }
 );
 
-module.exports = { animate, focus, state }
+module.exports = { animate, focus, state, getOffset }

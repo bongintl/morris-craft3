@@ -1,0 +1,71 @@
+enableVersioning: true
+entryTypes:
+  803d8011-4129-4105-a7d0-ec402c1b4333:
+    fieldLayouts:
+      0a044397-17fb-4cb7-ae21-ab42d5da74d1:
+        tabs:
+          -
+            fields:
+              1720b4a8-58a3-4756-a985-486649b7a11d:
+                required: false
+                sortOrder: 3
+              1988c28c-1da1-4882-a6bd-b5261f26e1d6:
+                required: false
+                sortOrder: 7
+              2c0d4d02-7d37-4636-b5f4-fdcb55a6cdf0:
+                required: false
+                sortOrder: 6
+              306d6a6e-5418-4df6-acdd-80e4c92bceda:
+                required: false
+                sortOrder: 12
+              3955c257-966e-4557-a650-a4521e71fc3c:
+                required: false
+                sortOrder: 4
+              55755ce9-ec1b-4b98-9260-45dad31defe1:
+                required: false
+                sortOrder: 2
+              9680f057-2404-4080-a392-5cdf1af6bb43:
+                required: false
+                sortOrder: 1
+              b2cb4b22-1e0f-4d62-b36d-90449f9bef38:
+                required: false
+                sortOrder: 9
+              cad30e51-ae8f-420e-90b8-57c7001429a6:
+                required: false
+                sortOrder: 10
+              d6f741e3-2594-4602-bef9-71db0b48ae53:
+                required: false
+                sortOrder: 11
+              e68bcab1-1ed9-4c8e-a758-d18c045cfbd4:
+                required: false
+                sortOrder: 5
+              ede491f6-6867-4405-ab2d-f931a782164d:
+                required: false
+                sortOrder: 8
+            name: Information
+            sortOrder: 1
+    handle: peopleEntries
+    hasTitleField: true
+    name: 'People Entries'
+    sortOrder: 1
+    titleFormat: null
+    titleLabel: Title
+handle: peopleEntries
+name: 'People Entries'
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: people/_entry
+    uriFormat: '{% if object.level == 1 %}people/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: people/_entry
+    uriFormat: '{% if object.level == 1 %}people/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+structure:
+  maxLevels: null
+  uid: 22fd4a1a-d82e-40bc-9a87-a04d9cbc5bf4
+type: structure

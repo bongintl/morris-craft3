@@ -1,0 +1,63 @@
+field: 77ee08f4-98c5-43f6-a99f-c7634b781f5d
+fieldLayouts:
+  bd771ea6-e97b-4ec0-96c1-c5d514bbe3c1:
+    tabs:
+      -
+        fields:
+          5171f71c-9817-4f6f-b9cb-5b65861ad245:
+            required: false
+            sortOrder: 2
+          e188482f-b587-4195-8afa-fc0aad92efe9:
+            required: false
+            sortOrder: 1
+        name: Content
+        sortOrder: 1
+fields:
+  5171f71c-9817-4f6f-b9cb-5b65861ad245:
+    contentColumnType: string
+    fieldGroup: null
+    handle: bottomImage
+    instructions: ''
+    name: 'Bottom Image'
+    searchable: true
+    settings:
+      defaultUploadLocationSource: 'folder:108683eb-4a89-40f9-afb7-6d81c2850401'
+      defaultUploadLocationSubpath: ''
+      limit: '1'
+      localizeRelations: false
+      restrictFiles: ''
+      selectionLabel: ''
+      singleUploadLocationSource: 'folder:108683eb-4a89-40f9-afb7-6d81c2850401'
+      singleUploadLocationSubpath: ''
+      sources: '*'
+      useSingleFolder: ''
+      viewMode: large
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\Assets
+  e188482f-b587-4195-8afa-fc0aad92efe9:
+    contentColumnType: string
+    fieldGroup: null
+    handle: topImage
+    instructions: ''
+    name: 'Top Image'
+    searchable: true
+    settings:
+      defaultUploadLocationSource: 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
+      defaultUploadLocationSubpath: ''
+      limit: '1'
+      localizeRelations: false
+      restrictFiles: ''
+      selectionLabel: ''
+      singleUploadLocationSource: 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
+      singleUploadLocationSubpath: ''
+      sources:
+        - 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
+      useSingleFolder: ''
+      viewMode: large
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\Assets
+handle: pair
+name: Pair
+sortOrder: 1

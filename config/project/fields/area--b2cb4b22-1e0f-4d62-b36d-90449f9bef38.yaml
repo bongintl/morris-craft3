@@ -1,0 +1,19 @@
+contentColumnType: string
+fieldGroup: e78aa093-6e3c-4f9f-8322-bc57755b10ff
+handle: area
+instructions: ''
+name: Area
+searchable: true
+settings:
+  options:
+    -
+      default: ''
+      label: 'Directors & Associates'
+      value: directorsAssociates
+    -
+      default: '1'
+      label: 'Studio Team'
+      value: studioTeam
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown

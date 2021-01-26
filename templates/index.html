@@ -9,10 +9,13 @@
     {% include 'includes/menu' %}
 {% endblock %}
 
+
 {% set id_right = 'work' %}
 {% block right %}
     <div class="work">
         {% set entries = craft.entries({ section: 'work', with: [ 'thumbnail', 'category.slug' ] }).all() %}
+        
+
         {% for entry in entries %}
             {% set thumb = entry.thumbnail[ 0 ] %}
             {% set orient = thumb.width <= thumb.height ? 'portrait' : 'landscape' %}
@@ -39,4 +42,6 @@
             </a>
         {% endfor %}
     </div>
+    
+    
 {% endblock %}

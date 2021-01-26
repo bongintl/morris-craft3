@@ -1,0 +1,52 @@
+field: 31d389f3-2649-476e-9106-f3049251746b
+fieldLayouts:
+  6b3f5897-9256-4691-9889-4fcc65c91551:
+    tabs:
+      -
+        fields:
+          00acac9b-ecbb-4930-9938-043ce659e588:
+            required: false
+            sortOrder: 1
+          2f3f9fa5-8314-43ab-a7c3-0cbc4ac4365a:
+            required: false
+            sortOrder: 2
+        name: Content
+        sortOrder: 1
+fields:
+  00acac9b-ecbb-4930-9938-043ce659e588:
+    contentColumnType: text
+    fieldGroup: null
+    handle: rowTitle
+    instructions: ''
+    name: Title
+    searchable: true
+    settings:
+      charLimit: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  2f3f9fa5-8314-43ab-a7c3-0cbc4ac4365a:
+    contentColumnType: text
+    fieldGroup: null
+    handle: rowCopy
+    instructions: ''
+    name: Copy
+    searchable: true
+    settings:
+      availableTransforms: '*'
+      availableVolumes: '*'
+      cleanupHtml: '1'
+      columnType: text
+      purifierConfig: ''
+      purifyHtml: '1'
+      redactorConfig: Morris.json
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\redactor\Field
+handle: row
+name: Row
+sortOrder: 1

@@ -7,7 +7,7 @@
 {% set id_left = 'work-content-' ~ entry.slug %}
 {% block left %}
     <div class="row row--empty"></div>
-    <div class="">
+    <div class="row--{{ entry.section.handle }}">
         
         {% set assets = entry.thumbnail.all() %}
         {% for asset in assets %}

@@ -1,0 +1,90 @@
+field: 19b95dc4-7ac9-4055-a843-512c6c816bb8
+fieldLayouts:
+  dce4b84b-8a8b-48d0-ba82-27da0ec8e3c4:
+    tabs:
+      -
+        fields:
+          8ef7f875-9836-4cd8-8548-811ab23fc7fa:
+            required: false
+            sortOrder: 3
+          d449b961-fc25-4a36-bf8d-9ec8e60edda3:
+            required: false
+            sortOrder: 2
+          fe2e892d-db33-4de1-8302-f7aff0a60d26:
+            required: false
+            sortOrder: 1
+        name: Content
+        sortOrder: 1
+fields:
+  8ef7f875-9836-4cd8-8548-811ab23fc7fa:
+    contentColumnType: text
+    fieldGroup: null
+    handle: map
+    instructions: ''
+    name: Map
+    searchable: true
+    settings:
+      boundary: '""'
+      boundaryRestrictionNELat: null
+      boundaryRestrictionNELng: null
+      boundaryRestrictionSWLat: null
+      boundaryRestrictionSWLng: null
+      country: null
+      countryRestriction: null
+      height: null
+      hideAddress: ''
+      hideLatLng: null
+      hideMap: ''
+      hideSearch: ''
+      lat: 51.272154
+      lng: 0.514951
+      maxZoom: '18'
+      minZoom: '3'
+      showLatLng: ''
+      size: normal
+      typeRestriction: null
+      zoom: 15
+    translationKeyFormat: null
+    translationMethod: none
+    type: ether\simplemap\fields\MapField
+  d449b961-fc25-4a36-bf8d-9ec8e60edda3:
+    contentColumnType: text
+    fieldGroup: null
+    handle: email
+    instructions: ''
+    name: Email
+    searchable: true
+    settings:
+      charLimit: ''
+      code: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+  fe2e892d-db33-4de1-8302-f7aff0a60d26:
+    contentColumnType: text
+    fieldGroup: null
+    handle: address
+    instructions: ''
+    name: Address
+    searchable: true
+    settings:
+      availableTransforms: '*'
+      availableVolumes: '*'
+      cleanupHtml: true
+      columnType: text
+      purifierConfig: ''
+      purifyHtml: '1'
+      redactorConfig: Simple.json
+      removeEmptyTags: '1'
+      removeInlineStyles: '1'
+      removeNbsp: '1'
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\redactor\Field
+handle: location
+name: Location
+sortOrder: 1

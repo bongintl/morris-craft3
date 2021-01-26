@@ -1,0 +1,14 @@
+contentColumnType: string
+fieldGroup: 4786e833-776f-4918-a9ee-d816bfa108f8
+handle: category
+instructions: ''
+name: Category
+searchable: true
+settings:
+  branchLimit: '1'
+  localizeRelations: false
+  selectionLabel: ''
+  source: 'group:a4ccd592-f904-4e76-841c-255fd26f91bb'
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Categories

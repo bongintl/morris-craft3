@@ -1,0 +1,11 @@
+contentColumnType: string(7)
+fieldGroup: 70570246-f0a3-4045-be5d-920de34efc33
+handle: color
+instructions: ''
+name: Color
+searchable: true
+settings:
+  defaultColor: '#dccdad'
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Color

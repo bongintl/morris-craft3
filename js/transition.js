@@ -1,3 +1,5 @@
+const wait = delay => new Promise(resolve => setTimeout(resolve, delay));
+
 var pages = [ null, null ];
 var panels = [ ...document.querySelectorAll( '.panel' ) ];
 
@@ -9,13 +11,14 @@ var titleContainer = document.body;
 
 var fadeOut = el => {
     el.style.opacity = 0;
-    setTimeout( () => el.parentNode.removeChild( el ), 1000 );
+    return wait(1000)
+        .then(() => el.parentNode.removeChild( el ))
 }
 var fadeIn = ( container, el ) => {
     el.style.opacity = 0;
     container.appendChild( el );
     el.dispatchEvent( new CustomEvent('resize', { detail: container.getBoundingClientRect().width }))
-    setTimeout( () => el.style.opacity = 1, 100 );
+    return wait(100).then(() => el.style.opacity = 1)
 }
 
 var transition = ( container, oldEl, newEl ) => {
@@ -23,7 +26,9 @@ var transition = ( container, oldEl, newEl ) => {
         newEl.dataset.skipped = true;
         return oldEl;
     }
-    if ( oldEl ) fadeOut( oldEl );
+    if ( oldEl )
+        fadeOut( oldEl )
+            .then(() => oldEl.dispatchEvent(new CustomEvent("remove")));
     if ( newEl ) fadeIn( container, newEl );
     return newEl;
 }

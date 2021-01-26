@@ -1,0 +1,35 @@
+enableVersioning: true
+entryTypes:
+  7a98e36e-2abf-4b43-974c-4484f84b268a:
+    fieldLayouts:
+      e3991e26-1e85-41c6-a93d-588e6a2c5397:
+        tabs:
+          -
+            fields:
+              f2469d02-873c-4da0-a64a-37da4e5e670b:
+                required: true
+                sortOrder: 1
+            name: Content
+            sortOrder: 1
+    handle: homepage
+    hasTitleField: true
+    name: Homepage
+    sortOrder: 1
+    titleFormat: null
+    titleLabel: Title
+handle: homepage
+name: Homepage
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: index
+    uriFormat: __home__
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: index
+    uriFormat: __home__
+type: single

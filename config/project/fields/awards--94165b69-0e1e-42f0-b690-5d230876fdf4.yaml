@@ -1,0 +1,13 @@
+contentColumnType: string
+fieldGroup: 6d112e1a-c0ee-4c1c-94c7-23719be8a9b4
+handle: awards
+instructions: ''
+name: Awards
+searchable: true
+settings:
+  contentTable: '{{%matrixcontent_awards}}'
+  maxBlocks: null
+  propagationMethod: all
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Matrix

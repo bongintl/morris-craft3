@@ -1,0 +1,54 @@
+dateModified: 1611606988
+email:
+  fromEmail: admin@bong.international
+  fromName: Morris+Company
+  template: null
+  transportType: craft\mail\transportadapters\Sendmail
+plugins:
+  redactor:
+    edition: standard
+    enabled: true
+    schemaVersion: 2.3.0
+  simple-map:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 0.0.7
+    settings:
+      browserApiKey: AIzaSyA67yk1qp6bceXqfn3-byIIj6IYn4jcpxY
+      serverApiKey: ''
+  simplemap:
+    enabled: true
+    schemaVersion: 3.4.2
+    settings:
+      apiKey: null
+      browserApiKey: null
+      disablePopulateMissingFieldData: false
+      geoLocationAutoRedirect: false
+      geoLocationCacheDuration: 5270400
+      geoLocationService: none
+      geoLocationToken: ''
+      geoService: google
+      geoToken: AIzaSyA67yk1qp6bceXqfn3-byIIj6IYn4jcpxY
+      mapTiles: google.roadmap
+      mapToken: AIzaSyDCa7RWlBVgYJmfKpcQYXK3loLVJt9tT9g
+      serverApiKey: null
+      unrestrictedApiKey: null
+      w3wEnabled: ''
+      w3wToken: ''
+  task-manager:
+    enabled: '1'
+    licenseKey: null
+    schemaVersion: 1.0.0
+    settings: null
+system:
+  edition: solo
+  live: true
+  name: Morris+Company
+  schemaVersion: 3.3.3
+  timeZone: UTC
+users:
+  allowPublicRegistration: false
+  defaultGroup: null
+  photoSubpath: ''
+  photoVolumeUid: null
+  requireEmailVerification: true

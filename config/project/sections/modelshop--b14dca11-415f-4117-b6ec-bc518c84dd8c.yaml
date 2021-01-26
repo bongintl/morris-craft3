@@ -1,0 +1,41 @@
+enableVersioning: true
+entryTypes:
+  d3591175-b0d2-4d0c-a2d8-d1ba212dbfa6:
+    fieldLayouts:
+      9e309be3-8f1d-4c65-8e12-f50e6c546e72:
+        tabs:
+          -
+            fields:
+              10736278-4a3b-4269-b457-bcfb3c3302d5:
+                required: false
+                sortOrder: 1
+              27a42825-a247-4f3e-9426-5dfbf106c6b8:
+                required: false
+                sortOrder: 2
+            name: Content
+            sortOrder: 1
+    handle: modelshop
+    hasTitleField: true
+    name: Modelshop
+    sortOrder: 1
+    titleFormat: null
+    titleLabel: Title
+handle: modelshop
+name: Modelshop
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: in-company/_entry
+    uriFormat: '{% if object.level == 1 %}modelshop/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: in-company/_entry
+    uriFormat: '{% if object.level == 1 %}modelshop/{slug}{% else %}{parent.uri}/{slug}{% endif %}'
+structure:
+  maxLevels: null
+  uid: 68d6f589-58b2-45e1-b8b8-c6e551e38ddf
+type: structure

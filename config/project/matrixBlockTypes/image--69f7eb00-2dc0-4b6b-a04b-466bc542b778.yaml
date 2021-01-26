@@ -1,0 +1,53 @@
+field: 27a42825-a247-4f3e-9426-5dfbf106c6b8
+fieldLayouts:
+  b76d189c-1b58-4161-9902-16f49f8938c7:
+    tabs:
+      -
+        elements:
+          -
+            fieldUid: 88d49b53-97ff-45a1-804e-2c7b387e46ba
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+        name: Content
+        sortOrder: 1
+fields:
+  88d49b53-97ff-45a1-804e-2c7b387e46ba:
+    contentColumnType: string
+    fieldGroup: null
+    handle: file
+    instructions: ''
+    name: File
+    searchable: true
+    settings:
+      allowSelfRelations: false
+      allowUploads: true
+      allowedKinds: null
+      defaultUploadLocationSource: 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
+      defaultUploadLocationSubpath: ''
+      limit: '1'
+      localizeRelations: false
+      previewMode: full
+      restrictFiles: ''
+      selectionLabel: ''
+      showSiteMenu: true
+      showUnpermittedFiles: false
+      showUnpermittedVolumes: true
+      singleUploadLocationSource: 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
+      singleUploadLocationSubpath: ''
+      source: null
+      sources: '*'
+      targetSiteId: null
+      useSingleFolder: false
+      validateRelatedElements: false
+      viewMode: large
+    translationKeyFormat: null
+    translationMethod: site
+    type: craft\fields\Assets
+handle: image
+name: 'Image / Video'
+sortOrder: 3

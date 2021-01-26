@@ -1,71 +1,183 @@
 {% extends "_layout" %}
 
+{% block back %}{% endblock %}
 {% block title %}
-    <h1>People</h1>
 {% endblock %}
 
-{% set id_left = 'people' %}
+{% set id_left = 'menu' %}
 {% block left %}
-    <div class="row row--empty"></div>
-
-    <ul class="list list--first">
-        <h2 class="list__title">Senior Team</h2>
-    
-        <div class="list__items">
-        {% for person in craft.entries.section('peopleEntries').all() %}
-                
-                {% if person.area == 'directorsAssociates' %}
-                <li class="list__item">
-                    <a href="{{ person.url }}">{{ person.title }}, {{ person.role }}</a>
-                </li>
-                {% endif %}
-            
-        {% endfor %}
-        </div>
-    </ul>
-
-    <ul class="list">
-        <h2 class="list__title">Studio Team</h2>
-    
-        <div class="list__items">
-        {% for person in craft.entries.section('peopleEntries').all() %}
-            
-            {% if person.area == 'studioTeam' %}
-            <li class="list__item item">
-                <a class="item__title">{{ person.title }}, {{ person.role }}</a>
-                <div class="item__content">
-                    
-                    <div class="item__portrait">
-                        {% if person.portrait | length %}
-                            {% include 'includes/asset' with { asset: person.portrait.one() } %}
-                        {% endif %}
-                    </div>
-                    {% if person.role %}{{ person.role }}<br>{% endif %}
-                    {% if person.qualification %}{{ person.qualification }}<br>{% endif %}
-                    {% if person.copy %}{{ person.copy }}{% endif %}
-                    <a href="mailto:{{ person.email }}">{{ person.email }}</a><br><br>
-                </div>
-            </li>
-            {% endif %}
-            
-        {% endfor %}
-        </div>
-        
-    </ul>
+    {% include 'includes/menu' %}
 {% endblock %}
 
-{% set id_right = 'people-feed' %}
+
+{% set id_right = 'people' %}
 {% block right %}
+    <div class="work">
+        
+        <h3 class="entry__divider">{{ 'Directors & Associates' | t }}</h3>
 
-<div class="feed">
+        {% set director_entries = craft.entries({ section: 'peopleEntries', area: 'directorsAssociates' }).all() %}
+        {% set team_entries = craft.entries({ section: 'peopleEntries', area: 'studioTeam' }).all() %}
+
+        {% for entry in director_entries %}
+            
+            {% set thumb = entry.portrait.one() %}
+            {% if thumb|length %}
+            {% set orient = thumb.width <= thumb.height ? 'portrait' : 'landscape' %}
+            {% endif %}
+         
+            <a
+                class="entry entry--people"
+                href="{{ entry.url }}"
+            >
+
+        
+                <div class="entry__image entry__image--{{ orient }}">
+                {% if thumb|length %}
+                        {% include 'includes/asset' with {
+                            asset: thumb,
+                            fit: orient == 'portrait' ? 'contain' : 'cover'
+                        } %}   
+                {% endif %}
+                </div>
+                
+                <div class="entry__caption">
+                    <span class="entry__title">{{ entry.title }}</span><br>
+                    <span class="entry__role">{{ entry.role }}</span>
+                </div>
+                
+                <div class="entry__caption--secondary">
+                    <span class="entry__title">{{ entry.title }}</span>, 
+                    <span class="entry__role">{{ entry.role }}</span>
+                </div>
+                
+                
+                
+
+            </a>
+
+
+        {% endfor %}
+        
+        
+        <h3 class="entry__divider">Studio Team</h3>
+        
+        
+        
+        {% for entry in team_entries %}
+        
+            {% set thumb = entry.portrait.one() %}
+
+            {% if thumb|length %}
+            {% set orient = thumb.width <= thumb.height ? 'portrait' : 'landscape' %}
+            {% endif %}
+
+  
+            <div class="entry entry--people entry--accordion">
+
+        
+                <div class="entry__image entry__image--{{ orient }}">
+                {% if thumb|length %}
+                        {% include 'includes/asset' with {
+                            asset: thumb,
+                            fit: orient == 'portrait' ? 'contain' : 'cover'
+                        } %}   
+                {% endif %}
+                </div>
+                
+                <div class="entry__caption">
+                    <span class="entry__title">{{ entry.title }}</span><br>
+                    <span class="entry__role">{{ entry.role }}</span>
+                </div>
+                
+                <div class=" entry__caption--secondary">
+                    <span class="entry__title">{{ entry.title }}</span>, 
+                    <span class="entry__role">{{ entry.role }}</span>
+                </div>
+                
+                <div class="entry__body">
+                    
+                    <div class="entry__image entry__image--{{ orient }} entry__image--secondary">
+                    {% if thumb|length %}
+                        {% include 'includes/asset' with {
+                            asset: thumb,
+                            fit: orient == 'portrait' ? 'contain' : 'cover'
+                        } %}   
+                    {% endif %}
+                    </div>
+                    
+                    <div class="entry__text">
+                    
+                        <div class="entry__contact">
+                        <div><a href="mailto:{{ entry.email }}">{{ entry.email }}</a></div>
+                        <div>{{ entry.qualification }}</div>
+                        </div>
+                        
+        
+                        {% if entry.twitter != '' %}
+                        <div><a href="http://twitter.com/{{ entry.twitter }}" target="_blank"></div>@{{ entry.twitter }}</a>
+                        {% endif %}
+                        {% if entry.instagram != '' %}
+                        <div><a href="http://instagram.com/{{ entry.instagram }}" target="_blank"></div>@{{ entry.twitter }}</a>
+                        {% endif %}
+                        {% if entry.linkedin != '' %}
+                        <div><a href="{{ entry.linkedin }}" target="_blank"></div>LinkedIn</a>
+                        {% endif %}
+                        
+                        <div class="">
+                            {{ entry.copy }}
+                        </div>
+                        
+                        <div class="">
+                            <small>{{ entry.footnote }}</small>
+                        </div>
+                        
+                        <div class="entry__work">
+                            
+                            {% if entry.work|length or entry.externalWork|length %}
+                            Work<br>
+                
+                            {% for entry in entry.work.all() %}
+                            
+                                <a href="{{ entry.url }}">{{ entry.title }}, {{ entry.location }}</a>
+                                
+                            {% endfor %}
+                            {% for entry in entry.externalWork.all() %}
+                            
+                                <span>{{ entry.workName }}, {{ entry.workLocation }}</span><br>
+                                
+                            {% endfor %}
+                            
+                            {% endif %}
+                        </div>
+                        
+                    </div>
+                </div>
+
+
+            </div>
 
 
 
-    {% for entry in entry.feed.all() %}
-        {% include 'includes/feed--item.html' %}
-    {% endfor %}
+        {% endfor %}
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </div>
 
 
-</div>
 
+
+
+    
 {% endblock %}
+
+

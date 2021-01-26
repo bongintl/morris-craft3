@@ -1,0 +1,15 @@
+contentColumnType: text
+fieldGroup: dfa8b3da-8e00-4e78-84c4-76dea5b226f3
+handle: feedBody
+instructions: ''
+name: Body
+searchable: true
+settings:
+  charLimit: '280'
+  columnType: text
+  initialRows: '4'
+  multiline: '1'
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

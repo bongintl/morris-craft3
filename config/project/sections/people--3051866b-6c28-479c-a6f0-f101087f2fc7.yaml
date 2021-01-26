@@ -1,0 +1,35 @@
+enableVersioning: true
+entryTypes:
+  6726d924-4e1c-4fcc-a45d-0efc67f0897a:
+    fieldLayouts:
+      01bfe39f-938c-4858-bbda-1aca335dd8b7:
+        tabs:
+          -
+            fields:
+              c93e39d7-ba0b-4425-b9dd-e7a4b113b4fc:
+                required: false
+                sortOrder: 1
+            name: 'Feed Content'
+            sortOrder: 1
+    handle: people
+    hasTitleField: true
+    name: People
+    sortOrder: 1
+    titleFormat: '{section.name|raw}'
+    titleLabel: Title
+handle: people
+name: People
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: people
+    uriFormat: people
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: people
+    uriFormat: people
+type: single

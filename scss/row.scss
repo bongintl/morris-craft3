@@ -1,4 +1,12 @@
 .row {
+    
+    
+    &--aboutEntries {
+        .row__image--first {
+            display: none;
+        }
+    }
+    
     &__copy {
         margin: 20px 20px 80px 20px;
         
@@ -34,6 +42,7 @@
         &--first {
             margin: 0 20px 80px 20px;
         }
+
         
         .page--large & {
             font-size: 47px;
@@ -53,6 +62,20 @@
             font-size: 21px;
             p:not(:first-child) {
                 text-indent: 21px;
+            }
+        }
+        
+        &--large {
+            .page--large & {
+                font-size: 52px;
+            }
+    
+            .page--medium & {
+                font-size: 42px;
+            }
+            
+            .page--small & {
+                font-size: 27px;
             }
         }
     }

@@ -1,0 +1,31 @@
+field: 94165b69-0e1e-42f0-b690-5d230876fdf4
+fieldLayouts:
+  6db70ba9-fdc5-40cf-9c38-a27a5cc7013c:
+    tabs:
+      -
+        fields:
+          3d995eff-1762-41d0-b8c9-d7a4c839e1a5:
+            required: false
+            sortOrder: 1
+        name: Content
+        sortOrder: 1
+fields:
+  3d995eff-1762-41d0-b8c9-d7a4c839e1a5:
+    contentColumnType: text
+    fieldGroup: null
+    handle: heading
+    instructions: ''
+    name: __blank__
+    searchable: true
+    settings:
+      charLimit: ''
+      columnType: text
+      initialRows: '4'
+      multiline: ''
+      placeholder: ''
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\PlainText
+handle: heading
+name: Heading
+sortOrder: 1

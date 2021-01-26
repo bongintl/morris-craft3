@@ -4,11 +4,11 @@
   "description": "",
   "main": "js/main.js",
   "scripts": {
-    "build-sass": "node-sass scss/style.scss web/style.css",
+    "build-sass": "node-sass scss/style.scss html/style.css",
     "watch-sass": "npm run build-sass && onchange 'scss/*' -- npm run build-sass",
-    "build-js": "browserify js/main.js -t [ babelify --presets [ env ] ] | uglifyjs -c -m > web/bundle.js",
-    "transpile-js": "browserify js/main.js -t [ babelify --presets [ env ] ] -o web/bundle.js",
-    "watch-js": "watchify js/main.js -o web/bundle.js -v",
+    "build-js": "browserify js/main.js -t [ babelify --presets [ env ] ] | uglifyjs -c -m > html/bundle.js",
+    "transpile-js": "browserify js/main.js -t [ babelify --presets [ env ] ] -o html/bundle.js",
+    "watch-js": "watchify js/main.js -o html/bundle.js -v",
     "build": "npm run build-sass && npm run build-js",
     "dev": "npm run watch-sass & npm run watch-js"
   },
@@ -35,6 +35,7 @@
     "join-path": "^1.1.1",
     "lodash": "^4.17.10",
     "page": "^1.8.6",
+    "query-string": "^6.13.1",
     "smoothscroll-polyfill": "^0.4.3"
   }
 }

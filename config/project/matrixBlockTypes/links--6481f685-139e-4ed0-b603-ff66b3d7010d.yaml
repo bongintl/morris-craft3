@@ -1,0 +1,33 @@
+field: 94165b69-0e1e-42f0-b690-5d230876fdf4
+fieldLayouts:
+  b1073922-a89c-4fff-a12d-4cf0d0471388:
+    tabs:
+      -
+        fields:
+          7160504e-0a7a-4cdf-9b00-79ee1343fc29:
+            required: false
+            sortOrder: 1
+        name: Content
+        sortOrder: 1
+fields:
+  7160504e-0a7a-4cdf-9b00-79ee1343fc29:
+    contentColumnType: text
+    fieldGroup: null
+    handle: links
+    instructions: ''
+    name: __blank__
+    searchable: true
+    settings:
+      availableTransforms: '*'
+      availableVolumes: '*'
+      cleanupHtml: '1'
+      columnType: text
+      purifierConfig: ''
+      purifyHtml: '1'
+      redactorConfig: Morris.json
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\redactor\Field
+handle: links
+name: Links
+sortOrder: 2

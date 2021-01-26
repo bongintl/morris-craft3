@@ -1,0 +1,14 @@
+handle: voicesCategories
+name: 'Voices Categories'
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    hasUrls: true
+    template: ''
+    uriFormat: 'voices-categories/{slug}'
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    hasUrls: true
+    template: ''
+    uriFormat: 'voices-categories/{slug}'
+structure:
+  maxLevels: null
+  uid: 5028919e-051a-4264-8e0a-7d0282f8631e

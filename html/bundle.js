@@ -27,7 +27,7 @@ module.exports = page => {
         content.addEventListener( 'scroll', update );
     })
 }
-},{"../utils/responsive":19,"lodash/throttle":69}],3:[function(require,module,exports){
+},{"../utils/responsive":23,"lodash/throttle":74}],3:[function(require,module,exports){
 require('smoothscroll-polyfill').polyfill();
 
 var panels = require('../panels');
@@ -67,14 +67,18 @@ module.exports = page => {
             panels.focus( 1 );
         })
     })
-    page.querySelectorAll('.menu__search').forEach( input => {
+    page.querySelectorAll('.menu__search--input').forEach( input => {
+
+        
+        
+        
         input.addEventListener( 'input', () => filter( 'tags', input.value ) );
         input.addEventListener( 'keydown', e => {
             if ( e.keyCode === 13 ) panels.focus( 1 );
         })
     })
 }
-},{"../panels":12,"smoothscroll-polyfill":74}],4:[function(require,module,exports){
+},{"../panels":15,"smoothscroll-polyfill":80}],4:[function(require,module,exports){
 var config = require('../config');
 
 var fns = [
@@ -84,15 +88,272 @@ var fns = [
     require('./accordion'),
     require('./menu'),
     require('./filter'),
-    // require('./map'),
-    require('./asset')
+    require('./map/map'),
+    require('./asset'),
+    require('./slide-toggle'),
+    // require('./contact-map')
 ]
 
 module.exports = ( ctx, next ) => {
-    fns.forEach( fn => ctx.elements.pages.forEach( page => fn( page ) ) );
+    fns.forEach( fn => ctx.elements.pages.forEach( page => fn( page, ctx ) ) );
     next();
 };
-},{"../config":8,"./accordion":1,"./asset":2,"./filter":3,"./menu":5,"./title":6,"./vw":7}],5:[function(require,module,exports){
+},{"../config":11,"./accordion":1,"./asset":2,"./filter":3,"./map/map":5,"./menu":7,"./slide-toggle":8,"./title":9,"./vw":10}],5:[function(require,module,exports){
+const styles = require('./mapStyles.js')
+const loadScript = require('../../utils/loadScript');
+
+const dispatch = (eventName, detail) =>
+    window.dispatchEvent(new CustomEvent(eventName, { detail }))
+const listen = events => {
+    for (const eventName in events) {
+        window.addEventListener(eventName, events[eventName]);
+    };
+    return () => {
+        for ( const eventName in events ) {
+            window.removeEventListener(eventName, events[eventName]);
+        }
+    }
+}
+
+const initMap = (containerEl, page) => {
+    /* global google */
+    const { Map, LatLng, LatLngBounds, OverlayView } = google.maps;
+    const mapEl = containerEl.querySelector('.map-container__map');
+    const map = new Map( mapEl, {
+        zoom: 1,
+        center: new google.maps.LatLng( 0, 0 ),
+        mapTypeControl: false,
+        zoomControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false,
+        scrollwheel: false,
+        styles: styles.noLabels,
+        gestureHandling: 'greedy'
+    });
+    
+    const containPoints = points => {
+        const bounds = new LatLngBounds();
+        points.forEach(point => bounds.extend(point));
+        map.fitBounds(bounds);
+    }
+    
+    class MocoOverlay extends OverlayView {
+        constructor (elements) {
+            super()
+            this.items = elements.map(element => ({
+                element,
+                latLng: new LatLng(Number( element.dataset.lat ), Number( element.dataset.lng )),
+                category: element.dataset.category
+            }))
+            this.containerOverlay = containerEl.querySelector(".map-container__overlay")
+            this.containerOverlay.addEventListener("click", () => this.setActive(null));
+            elements.forEach((element, i) => {
+                element.addEventListener('click', e => {
+                    e.stopPropagation();
+                    this.setActive(i)
+                })
+            })
+            containPoints(this.items.map(item => item.latLng))
+        }
+        onAdd() {
+            const panes = this.getPanes();
+            this.items.forEach(item => {
+                panes.overlayMouseTarget.appendChild(item.element);    
+            })
+        }
+        draw() {
+            const projection = this.getProjection();
+            this.items.forEach(({ element, latLng }) => {
+                const position = projection.fromLatLngToDivPixel( latLng )
+                element.style.transform = `translate(${position.x}px, ${position.y}px`;
+            })
+        }
+        updateFilters (filterState) {
+            const points = [];
+            this.items.forEach(item => {
+                item.element.classList.toggle("map-item_hidden", !filterState[item.category]);
+                if ( filterState[item.category] ) points.push(item.latLng);
+            })
+            if (points.length) containPoints(points);
+        }
+        setActive (index) {
+            this.items.forEach((item, i) => item.element.classList.toggle("map-item_active", i === index));
+            this.containerOverlay.classList.toggle('map-container__overlay_active', index !== null)
+        }
+    }
+    const overlay = new MocoOverlay([...containerEl.querySelectorAll('.map-item')]);
+    overlay.setMap(map);
+    
+    const controls = containerEl.querySelector(".map-container__controls")
+    controls.children[0].addEventListener('click', () => {
+        map.setZoom(map.getZoom() + 1)
+    })
+    controls.children[1].addEventListener('click', () => {
+        map.setZoom(map.getZoom() - 1)
+    })
+    
+    const cleanup = listen({
+        "filterUpdate": ({ detail: state }) => {
+            overlay.updateFilters(state)
+        },
+        "setView": ({detail: {lat, lng, zoom}}) => {
+            map.panTo(new LatLng(lat, lng));
+            map.setZoom(zoom);
+        }
+    })
+    
+    page.addEventListener("remove", cleanup);
+    mapEl.addEventListener("click", () => overlay.setActive(null));
+}
+
+const initControls = (containerEl) => {
+    const filters = [...containerEl.querySelectorAll('.map-filters__category')]
+    const filterState = filters.reduce((state, el) => {
+        state[el.dataset.filter] = true;
+        return state;
+    }, {})
+    const update = (newValues) => {
+        for (const key in newValues ) filterState[key] = newValues[key];
+        filters.forEach(el => {
+            const isActive = filterState[el.dataset.filter];
+            el.classList.toggle("map-filters__category_active", isActive)
+        })
+        dispatch("filterUpdate", filterState);
+    }
+    filters.forEach(el => {
+        el.addEventListener("click", () => {
+            const newFilters = {};
+            filters.forEach(el2 => newFilters[el2.dataset.filter] = el2 === el);
+            update(newFilters)
+        })
+    })
+    containerEl.querySelector(".map-filters__clear").addEventListener("click", e => {
+        update(filters.reduce((state, el) => {
+            state[el.dataset.filter] = true;
+            return state;
+        }, {}))
+    })
+    const views = [...containerEl.querySelectorAll(".map-views__view")];
+    views.forEach(el => {
+        el.addEventListener("click", () => {
+            dispatch("setView", {
+                lng: Number(el.dataset.lng),
+                lat: Number(el.dataset.lat),
+                zoom: Number(el.dataset.zoom)
+            })
+        })
+    })
+}
+
+module.exports = (page, context) => {
+    const mapContainerEl = page.querySelector('.map-container');
+    if ( mapContainerEl ) {
+        loadScript( `https://maps.googleapis.com/maps/api/js?key=${ mapContainerEl.dataset.apiKey }` )
+            .then(() => initMap(mapContainerEl, page))
+    }
+    const mapControlsEl = page.querySelector('.map-controls');
+    if (mapControlsEl) {
+        initControls(mapControlsEl);
+    }
+}
+ 
+},{"../../utils/loadScript":18,"./mapStyles.js":6}],6:[function(require,module,exports){
+exports.default = [
+    {
+        "featureType": "administrative",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "visibility": "off"
+                // "color": "#999999"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#f2f2f2"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+            {
+                "saturation": -100
+            },
+            {
+                "lightness": 45
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    }
+]
+
+exports.noLabels= [
+    ...exports.default,
+    {
+        "featureType": "all",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    }
+];
+},{}],7:[function(require,module,exports){
 /* global $ */
 
 var { BREAKPOINT } = require('../config');
@@ -124,7 +385,19 @@ module.exports = page => {
     accordions.forEach( ( _, i ) => set( i, states[ i ], 0 ))
     // toggle( -1, 0 );
 }
-},{"../config":8}],6:[function(require,module,exports){
+},{"../config":11}],8:[function(require,module,exports){
+/* global $ */
+module.exports = page => {
+    $('.entry--accordion .entry__image, .entry--accordion .entry__caption, .entry--accordion .entry__caption--secondary', page).click(function(){
+        
+        let $parent = $(this).parent('.entry--accordion');
+        let $body = $parent.find('.entry__body');
+        $body.slideToggle();
+        console.log('test');
+        
+    });
+}
+},{}],9:[function(require,module,exports){
 module.exports = document => {
     // var title = document.querySelector('.title');
     // var pages = [...document.querySelectorAll('.page')]
@@ -136,7 +409,7 @@ module.exports = document => {
     //     })
     // })
 }
-},{}],7:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var flatten = arrs => arrs.reduce( ( a, b ) => a.concat( b ), [] );
 
 module.exports = page => {
@@ -163,7 +436,7 @@ module.exports = page => {
         apply();
     }
 }
-},{}],8:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var page = require('page');
 
 var plusPosition = fn => () => {
@@ -201,7 +474,7 @@ var config = {
 }
 
 module.exports = config;
-},{"page":71}],9:[function(require,module,exports){
+},{"page":76}],12:[function(require,module,exports){
 var { BREAKPOINT, LOGO_WIDTH, PLUS_OFFSET, REM } = require('./config');
 
 var split = width => [ width, window.innerWidth - width ];
@@ -224,8 +497,9 @@ module.exports = {
     menu: layout( mobile, center ),
     slider: layout( mobileMenu, menu )
 }
-},{"./config":8}],10:[function(require,module,exports){
+},{"./config":11}],13:[function(require,module,exports){
 require('custom-event-polyfill');
+var queryString = require('query-string');
 var page = require('page');
 
 var panels = require('./panels');
@@ -260,11 +534,10 @@ var route = ( path, panelSizes ) => {
         pages,
         components,
         wrap( ctx => {
-            // BAD!!!
-            var p = panels.animate( panelSizes(), 0 );
-            if ( ctx.elements.pages.some( p => p.id === 'contact' ) ) {
-                p.then( () => panels.focus( 1 ) );
-            }
+            var sizes = panelSizes();
+            var query = queryString.parse(ctx.querystring);
+            var side = Number(query.side || 0);
+            return panels.animate( sizes, panels.getOffset(sizes, side) );
         }),
         () => firstLoad = false
     );
@@ -275,10 +548,14 @@ var route = ( path, panelSizes ) => {
 // route( '/contact', layouts.menu, 'home' )
 // route( '/work/:slug', layouts.default, 'work' )
 // route( '/index.php?p=contact', layouts.default, 1 )
+
 route( '*', layouts.default );
 
 page();
-},{"./components":4,"./config":8,"./layouts":9,"./pages":11,"./panels":12,"./slider":13,"./transition":14,"./utils/loadTemplate":15,"custom-event-polyfill":23,"page":71}],11:[function(require,module,exports){
+
+
+
+},{"./components":4,"./config":11,"./layouts":12,"./pages":14,"./panels":15,"./slider":16,"./transition":17,"./utils/loadTemplate":19,"custom-event-polyfill":27,"page":76,"query-string":79}],14:[function(require,module,exports){
 var { BREAKPOINT, PANEL_BREAKPOINTS } = require('./config');
 
 module.exports = ( ctx, next ) => {
@@ -339,7 +616,7 @@ module.exports = ( ctx, next ) => {
     })
     next();
 }
-},{"./config":8}],12:[function(require,module,exports){
+},{"./config":11}],15:[function(require,module,exports){
 /* global CustomEvent */
 
 var { BREAKPOINT, REM } = require('./config');
@@ -416,13 +693,16 @@ var animate = ( sizes, offset = state.offset, duration = 600 ) => {
     }
 }
 
+var getOffset = (sizes, side) => {
+    return side === 0
+        ? 0
+        : -( ( sizes[ 0 ] + sizes[ 1 ] ) - window.innerWidth )
+}
+
 var focus = ( side, duration = 600 ) => {
     if ( state.draggable ) return;
     state.active = side;
-    var offset = side === 0
-        ? 0
-        : -( ( state.sizes[ 0 ] + state.sizes[ 1 ] ) - window.innerWidth )
-    return animate( state.sizes, offset, duration );
+    return animate( state.sizes, getOffset(state.sizes, side), duration );
 }
 
 var setDesktop = () => {
@@ -474,8 +754,8 @@ onDrag( handle,
     }
 );
 
-module.exports = { animate, focus, state }
-},{"./config":8,"./utils/math":16,"./utils/onDrag":17,"./utils/tween":20}],13:[function(require,module,exports){
+module.exports = { animate, focus, state, getOffset }
+},{"./config":11,"./utils/math":20,"./utils/onDrag":21,"./utils/tween":24}],16:[function(require,module,exports){
 // var loadImage = require('./utils/loadImage');
 var wait = require('./utils/wait');
 var responsive = require('./utils/responsive');
@@ -560,7 +840,9 @@ module.exports = ( ctx, next ) => {
         next();
     }
 }
-},{"./utils/responsive":19,"./utils/wait":21}],14:[function(require,module,exports){
+},{"./utils/responsive":23,"./utils/wait":25}],17:[function(require,module,exports){
+const wait = delay => new Promise(resolve => setTimeout(resolve, delay));
+
 var pages = [ null, null ];
 var panels = [ ...document.querySelectorAll( '.panel' ) ];
 
@@ -572,13 +854,14 @@ var titleContainer = document.body;
 
 var fadeOut = el => {
     el.style.opacity = 0;
-    setTimeout( () => el.parentNode.removeChild( el ), 1000 );
+    return wait(1000)
+        .then(() => el.parentNode.removeChild( el ))
 }
 var fadeIn = ( container, el ) => {
     el.style.opacity = 0;
     container.appendChild( el );
     el.dispatchEvent( new CustomEvent('resize', { detail: container.getBoundingClientRect().width }))
-    setTimeout( () => el.style.opacity = 1, 100 );
+    return wait(100).then(() => el.style.opacity = 1)
 }
 
 var transition = ( container, oldEl, newEl ) => {
@@ -586,7 +869,9 @@ var transition = ( container, oldEl, newEl ) => {
         newEl.dataset.skipped = true;
         return oldEl;
     }
-    if ( oldEl ) fadeOut( oldEl );
+    if ( oldEl )
+        fadeOut( oldEl )
+            .then(() => oldEl.dispatchEvent(new CustomEvent("remove")));
     if ( newEl ) fadeIn( container, newEl );
     return newEl;
 }
@@ -614,7 +899,25 @@ module.exports = ( ctx, next ) => {
     }
     next();
 }
-},{}],15:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
+const promises = {};
+
+const loadScript = url => {
+    if (!promises[url]) {
+        promises[url] = new Promise(resolve => {
+            var script = document.createElement( 'script' );
+            script.onload = resolve;
+            script.type = 'text/javascript';
+            script.src = url;
+            document.body.appendChild( script );
+        })
+    }
+    return promises[url];
+}
+
+
+module.exports = loadScript
+},{}],19:[function(require,module,exports){
 var join = require('join-path');
 
 /* global DOMParser */
@@ -640,12 +943,12 @@ module.exports = ( ctx, next ) => {
             })
     }
 }
-},{"join-path":57}],16:[function(require,module,exports){
+},{"join-path":62}],20:[function(require,module,exports){
 var clamp = ( x, min, max ) => Math.min( Math.max( x, min ), max );
 var lerp = ( a, b, t ) => a + ( b - a ) * t;
 
 module.exports = { clamp, lerp };
-},{}],17:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 var preventDefault = fn => e => {
     // e.preventDefault();
     fn( e );
@@ -681,7 +984,7 @@ module.exports = ( el, down, move, up ) => {
     el.addEventListener( 'mousedown', onDown, { passive: false } );
     el.addEventListener( 'touchstart', onDown, { passive: false } );
 }
-},{}],18:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 var funcs = {};
 
 var funcCount = 0;
@@ -779,7 +1082,7 @@ var once = fn => {
 }
 
 module.exports = { start, once, stop };
-},{}],19:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /* global Image, HTMLImageElement, HTMLVideoElement */
 
 var fastdom = require('fastdom');
@@ -801,7 +1104,7 @@ var loadSrc = src => {
 
 module.exports = ( element, onChange = () => {} ) => {
     // if ( element instanceof HTMLVideoElement ) return;
-    var srcs = element.dataset.srcset
+    var srcs = (element.dataset.srcset || "")
         .split(',')
         .map( str => {
             var [ url, w ] = str.trim().split(' ');
@@ -833,7 +1136,7 @@ module.exports = ( element, onChange = () => {} ) => {
     })
     return update;
 }
-},{"fastdom":56}],20:[function(require,module,exports){
+},{"fastdom":61}],24:[function(require,module,exports){
 var eases = require('eases');
 var rAF = require('./rAF');
 
@@ -887,9 +1190,9 @@ module.exports = ({
     })
 
 };
-},{"./rAF":18,"eases":42}],21:[function(require,module,exports){
+},{"./rAF":22,"eases":47}],25:[function(require,module,exports){
 module.exports = delay => new Promise( resolve => setTimeout( resolve, delay ));
-},{}],22:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 module.exports = function (data, convertObject) {
 
   if (!data) {
@@ -927,7 +1230,7 @@ function values (obj) {
   });
 }
 
-},{}],23:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 // Polyfill for creating CustomEvents on IE9/10/11
 
 // code pulled from:
@@ -973,7 +1276,103 @@ try {
   window.CustomEvent = CustomEvent; // expose definition to window
 }
 
-},{}],24:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
+'use strict';
+var token = '%[a-f0-9]{2}';
+var singleMatcher = new RegExp(token, 'gi');
+var multiMatcher = new RegExp('(' + token + ')+', 'gi');
+
+function decodeComponents(components, split) {
+	try {
+		// Try to decode the entire string first
+		return decodeURIComponent(components.join(''));
+	} catch (err) {
+		// Do nothing
+	}
+
+	if (components.length === 1) {
+		return components;
+	}
+
+	split = split || 1;
+
+	// Split the array in 2 parts
+	var left = components.slice(0, split);
+	var right = components.slice(split);
+
+	return Array.prototype.concat.call([], decodeComponents(left), decodeComponents(right));
+}
+
+function decode(input) {
+	try {
+		return decodeURIComponent(input);
+	} catch (err) {
+		var tokens = input.match(singleMatcher);
+
+		for (var i = 1; i < tokens.length; i++) {
+			input = decodeComponents(tokens, i).join('');
+
+			tokens = input.match(singleMatcher);
+		}
+
+		return input;
+	}
+}
+
+function customDecodeURIComponent(input) {
+	// Keep track of all the replacements and prefill the map with the `BOM`
+	var replaceMap = {
+		'%FE%FF': '\uFFFD\uFFFD',
+		'%FF%FE': '\uFFFD\uFFFD'
+	};
+
+	var match = multiMatcher.exec(input);
+	while (match) {
+		try {
+			// Decode as big chunks as possible
+			replaceMap[match[0]] = decodeURIComponent(match[0]);
+		} catch (err) {
+			var result = decode(match[0]);
+
+			if (result !== match[0]) {
+				replaceMap[match[0]] = result;
+			}
+		}
+
+		match = multiMatcher.exec(input);
+	}
+
+	// Add `%C2` at the end of the map to make sure it does not replace the combinator before everything else
+	replaceMap['%C2'] = '\uFFFD';
+
+	var entries = Object.keys(replaceMap);
+
+	for (var i = 0; i < entries.length; i++) {
+		// Replace all decoded components
+		var key = entries[i];
+		input = input.replace(new RegExp(key, 'g'), replaceMap[key]);
+	}
+
+	return input;
+}
+
+module.exports = function (encodedURI) {
+	if (typeof encodedURI !== 'string') {
+		throw new TypeError('Expected `encodedURI` to be of type `string`, got `' + typeof encodedURI + '`');
+	}
+
+	try {
+		encodedURI = encodedURI.replace(/\+/g, ' ');
+
+		// Try the built in decoder first
+		return decodeURIComponent(encodedURI);
+	} catch (err) {
+		// Fallback to a more advanced decoder
+		return customDecodeURIComponent(encodedURI);
+	}
+};
+
+},{}],29:[function(require,module,exports){
 function backInOut(t) {
   var s = 1.70158 * 1.525
   if ((t *= 2) < 1)
@@ -982,21 +1381,21 @@ function backInOut(t) {
 }
 
 module.exports = backInOut
-},{}],25:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 function backIn(t) {
   var s = 1.70158
   return t * t * ((s + 1) * t - s)
 }
 
 module.exports = backIn
-},{}],26:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 function backOut(t) {
   var s = 1.70158
   return --t * t * ((s + 1) * t + s) + 1
 }
 
 module.exports = backOut
-},{}],27:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 var bounceOut = require('./bounce-out')
 
 function bounceInOut(t) {
@@ -1006,7 +1405,7 @@ function bounceInOut(t) {
 }
 
 module.exports = bounceInOut
-},{"./bounce-out":29}],28:[function(require,module,exports){
+},{"./bounce-out":34}],33:[function(require,module,exports){
 var bounceOut = require('./bounce-out')
 
 function bounceIn(t) {
@@ -1014,7 +1413,7 @@ function bounceIn(t) {
 }
 
 module.exports = bounceIn
-},{"./bounce-out":29}],29:[function(require,module,exports){
+},{"./bounce-out":34}],34:[function(require,module,exports){
 function bounceOut(t) {
   var a = 4.0 / 11.0
   var b = 8.0 / 11.0
@@ -1036,26 +1435,26 @@ function bounceOut(t) {
 }
 
 module.exports = bounceOut
-},{}],30:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 function circInOut(t) {
   if ((t *= 2) < 1) return -0.5 * (Math.sqrt(1 - t * t) - 1)
   return 0.5 * (Math.sqrt(1 - (t -= 2) * t) + 1)
 }
 
 module.exports = circInOut
-},{}],31:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 function circIn(t) {
   return 1.0 - Math.sqrt(1.0 - t * t)
 }
 
 module.exports = circIn
-},{}],32:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 function circOut(t) {
   return Math.sqrt(1 - ( --t * t ))
 }
 
 module.exports = circOut
-},{}],33:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 function cubicInOut(t) {
   return t < 0.5
     ? 4.0 * t * t * t
@@ -1063,20 +1462,20 @@ function cubicInOut(t) {
 }
 
 module.exports = cubicInOut
-},{}],34:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 function cubicIn(t) {
   return t * t * t
 }
 
 module.exports = cubicIn
-},{}],35:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 function cubicOut(t) {
   var f = t - 1.0
   return f * f * f + 1.0
 }
 
 module.exports = cubicOut
-},{}],36:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 function elasticInOut(t) {
   return t < 0.5
     ? 0.5 * Math.sin(+13.0 * Math.PI/2 * 2.0 * t) * Math.pow(2.0, 10.0 * (2.0 * t - 1.0))
@@ -1084,19 +1483,19 @@ function elasticInOut(t) {
 }
 
 module.exports = elasticInOut
-},{}],37:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 function elasticIn(t) {
   return Math.sin(13.0 * t * Math.PI/2) * Math.pow(2.0, 10.0 * (t - 1.0))
 }
 
 module.exports = elasticIn
-},{}],38:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 function elasticOut(t) {
   return Math.sin(-13.0 * (t + 1.0) * Math.PI/2) * Math.pow(2.0, -10.0 * t) + 1.0
 }
 
 module.exports = elasticOut
-},{}],39:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 function expoInOut(t) {
   return (t === 0.0 || t === 1.0)
     ? t
@@ -1106,19 +1505,19 @@ function expoInOut(t) {
 }
 
 module.exports = expoInOut
-},{}],40:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 function expoIn(t) {
   return t === 0.0 ? t : Math.pow(2.0, 10.0 * (t - 1.0))
 }
 
 module.exports = expoIn
-},{}],41:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 function expoOut(t) {
   return t === 1.0 ? t : 1.0 - Math.pow(2.0, -10.0 * t)
 }
 
 module.exports = expoOut
-},{}],42:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = {
 	'backInOut': require('./back-in-out'),
 	'backIn': require('./back-in'),
@@ -1152,13 +1551,13 @@ module.exports = {
 	'sineIn': require('./sine-in'),
 	'sineOut': require('./sine-out')
 }
-},{"./back-in":25,"./back-in-out":24,"./back-out":26,"./bounce-in":28,"./bounce-in-out":27,"./bounce-out":29,"./circ-in":31,"./circ-in-out":30,"./circ-out":32,"./cubic-in":34,"./cubic-in-out":33,"./cubic-out":35,"./elastic-in":37,"./elastic-in-out":36,"./elastic-out":38,"./expo-in":40,"./expo-in-out":39,"./expo-out":41,"./linear":43,"./quad-in":45,"./quad-in-out":44,"./quad-out":46,"./quart-in":48,"./quart-in-out":47,"./quart-out":49,"./quint-in":51,"./quint-in-out":50,"./quint-out":52,"./sine-in":54,"./sine-in-out":53,"./sine-out":55}],43:[function(require,module,exports){
+},{"./back-in":30,"./back-in-out":29,"./back-out":31,"./bounce-in":33,"./bounce-in-out":32,"./bounce-out":34,"./circ-in":36,"./circ-in-out":35,"./circ-out":37,"./cubic-in":39,"./cubic-in-out":38,"./cubic-out":40,"./elastic-in":42,"./elastic-in-out":41,"./elastic-out":43,"./expo-in":45,"./expo-in-out":44,"./expo-out":46,"./linear":48,"./quad-in":50,"./quad-in-out":49,"./quad-out":51,"./quart-in":53,"./quart-in-out":52,"./quart-out":54,"./quint-in":56,"./quint-in-out":55,"./quint-out":57,"./sine-in":59,"./sine-in-out":58,"./sine-out":60}],48:[function(require,module,exports){
 function linear(t) {
   return t
 }
 
 module.exports = linear
-},{}],44:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 function quadInOut(t) {
     t /= 0.5
     if (t < 1) return 0.5*t*t
@@ -1167,19 +1566,19 @@ function quadInOut(t) {
 }
 
 module.exports = quadInOut
-},{}],45:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 function quadIn(t) {
   return t * t
 }
 
 module.exports = quadIn
-},{}],46:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 function quadOut(t) {
   return -t * (t - 2.0)
 }
 
 module.exports = quadOut
-},{}],47:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 function quarticInOut(t) {
   return t < 0.5
     ? +8.0 * Math.pow(t, 4.0)
@@ -1187,44 +1586,44 @@ function quarticInOut(t) {
 }
 
 module.exports = quarticInOut
-},{}],48:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 function quarticIn(t) {
   return Math.pow(t, 4.0)
 }
 
 module.exports = quarticIn
-},{}],49:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 function quarticOut(t) {
   return Math.pow(t - 1.0, 3.0) * (1.0 - t) + 1.0
 }
 
 module.exports = quarticOut
-},{}],50:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 function qinticInOut(t) {
     if ( ( t *= 2 ) < 1 ) return 0.5 * t * t * t * t * t
     return 0.5 * ( ( t -= 2 ) * t * t * t * t + 2 )
 }
 
 module.exports = qinticInOut
-},{}],51:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 function qinticIn(t) {
   return t * t * t * t * t
 }
 
 module.exports = qinticIn
-},{}],52:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 function qinticOut(t) {
   return --t * t * t * t * t + 1
 }
 
 module.exports = qinticOut
-},{}],53:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 function sineInOut(t) {
   return -0.5 * (Math.cos(Math.PI*t) - 1)
 }
 
 module.exports = sineInOut
-},{}],54:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 function sineIn (t) {
   var v = Math.cos(t * Math.PI * 0.5)
   if (Math.abs(v) < 1e-14) return 1
@@ -1233,13 +1632,13 @@ function sineIn (t) {
 
 module.exports = sineIn
 
-},{}],55:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 function sineOut(t) {
   return Math.sin(t * Math.PI/2)
 }
 
 module.exports = sineOut
-},{}],56:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 !(function(win) {
 
 /**
@@ -1485,7 +1884,7 @@ else if ((typeof module) == 'object') module.exports = exports;
 
 })( typeof window !== 'undefined' ? window : this);
 
-},{}],57:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 var path = require('path');
 
 var urlJoin = require('url-join');
@@ -1516,7 +1915,7 @@ var replaceUndefined = exports.replaceUndefined = function (p, idx, paths) {
     : p;
 }
 
-},{"as-array":22,"path":72,"url-join":75,"valid-url":76}],58:[function(require,module,exports){
+},{"as-array":26,"path":77,"url-join":83,"valid-url":84}],63:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -1524,7 +1923,7 @@ var Symbol = root.Symbol;
 
 module.exports = Symbol;
 
-},{"./_root":63}],59:[function(require,module,exports){
+},{"./_root":68}],64:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     getRawTag = require('./_getRawTag'),
     objectToString = require('./_objectToString');
@@ -1554,7 +1953,7 @@ function baseGetTag(value) {
 
 module.exports = baseGetTag;
 
-},{"./_Symbol":58,"./_getRawTag":61,"./_objectToString":62}],60:[function(require,module,exports){
+},{"./_Symbol":63,"./_getRawTag":66,"./_objectToString":67}],65:[function(require,module,exports){
 (function (global){
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -1562,7 +1961,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 module.exports = freeGlobal;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],61:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 var Symbol = require('./_Symbol');
 
 /** Used for built-in method references. */
@@ -1610,7 +2009,7 @@ function getRawTag(value) {
 
 module.exports = getRawTag;
 
-},{"./_Symbol":58}],62:[function(require,module,exports){
+},{"./_Symbol":63}],67:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -1634,7 +2033,7 @@ function objectToString(value) {
 
 module.exports = objectToString;
 
-},{}],63:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 var freeGlobal = require('./_freeGlobal');
 
 /** Detect free variable `self`. */
@@ -1645,7 +2044,7 @@ var root = freeGlobal || freeSelf || Function('return this')();
 
 module.exports = root;
 
-},{"./_freeGlobal":60}],64:[function(require,module,exports){
+},{"./_freeGlobal":65}],69:[function(require,module,exports){
 var isObject = require('./isObject'),
     now = require('./now'),
     toNumber = require('./toNumber');
@@ -1838,7 +2237,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"./isObject":65,"./now":68,"./toNumber":70}],65:[function(require,module,exports){
+},{"./isObject":70,"./now":73,"./toNumber":75}],70:[function(require,module,exports){
 /**
  * Checks if `value` is the
  * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
@@ -1871,7 +2270,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],66:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -1902,7 +2301,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],67:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isObjectLike = require('./isObjectLike');
 
@@ -1933,7 +2332,7 @@ function isSymbol(value) {
 
 module.exports = isSymbol;
 
-},{"./_baseGetTag":59,"./isObjectLike":66}],68:[function(require,module,exports){
+},{"./_baseGetTag":64,"./isObjectLike":71}],73:[function(require,module,exports){
 var root = require('./_root');
 
 /**
@@ -1958,7 +2357,7 @@ var now = function() {
 
 module.exports = now;
 
-},{"./_root":63}],69:[function(require,module,exports){
+},{"./_root":68}],74:[function(require,module,exports){
 var debounce = require('./debounce'),
     isObject = require('./isObject');
 
@@ -2029,7 +2428,7 @@ function throttle(func, wait, options) {
 
 module.exports = throttle;
 
-},{"./debounce":64,"./isObject":65}],70:[function(require,module,exports){
+},{"./debounce":69,"./isObject":70}],75:[function(require,module,exports){
 var isObject = require('./isObject'),
     isSymbol = require('./isSymbol');
 
@@ -2097,7 +2496,7 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isObject":65,"./isSymbol":67}],71:[function(require,module,exports){
+},{"./isObject":70,"./isSymbol":72}],76:[function(require,module,exports){
 (function (process){
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -3320,7 +3719,7 @@ return page_js;
 })));
 
 }).call(this,require('_process'))
-},{"_process":73}],72:[function(require,module,exports){
+},{"_process":78}],77:[function(require,module,exports){
 (function (process){
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -3626,7 +4025,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":73}],73:[function(require,module,exports){
+},{"_process":78}],78:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -3812,7 +4211,387 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],74:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
+'use strict';
+const strictUriEncode = require('strict-uri-encode');
+const decodeComponent = require('decode-uri-component');
+const splitOnFirst = require('split-on-first');
+
+const isNullOrUndefined = value => value === null || value === undefined;
+
+function encoderForArrayFormat(options) {
+	switch (options.arrayFormat) {
+		case 'index':
+			return key => (result, value) => {
+				const index = result.length;
+
+				if (
+					value === undefined ||
+					(options.skipNull && value === null) ||
+					(options.skipEmptyString && value === '')
+				) {
+					return result;
+				}
+
+				if (value === null) {
+					return [...result, [encode(key, options), '[', index, ']'].join('')];
+				}
+
+				return [
+					...result,
+					[encode(key, options), '[', encode(index, options), ']=', encode(value, options)].join('')
+				];
+			};
+
+		case 'bracket':
+			return key => (result, value) => {
+				if (
+					value === undefined ||
+					(options.skipNull && value === null) ||
+					(options.skipEmptyString && value === '')
+				) {
+					return result;
+				}
+
+				if (value === null) {
+					return [...result, [encode(key, options), '[]'].join('')];
+				}
+
+				return [...result, [encode(key, options), '[]=', encode(value, options)].join('')];
+			};
+
+		case 'comma':
+		case 'separator':
+			return key => (result, value) => {
+				if (value === null || value === undefined || value.length === 0) {
+					return result;
+				}
+
+				if (result.length === 0) {
+					return [[encode(key, options), '=', encode(value, options)].join('')];
+				}
+
+				return [[result, encode(value, options)].join(options.arrayFormatSeparator)];
+			};
+
+		default:
+			return key => (result, value) => {
+				if (
+					value === undefined ||
+					(options.skipNull && value === null) ||
+					(options.skipEmptyString && value === '')
+				) {
+					return result;
+				}
+
+				if (value === null) {
+					return [...result, encode(key, options)];
+				}
+
+				return [...result, [encode(key, options), '=', encode(value, options)].join('')];
+			};
+	}
+}
+
+function parserForArrayFormat(options) {
+	let result;
+
+	switch (options.arrayFormat) {
+		case 'index':
+			return (key, value, accumulator) => {
+				result = /\[(\d*)\]$/.exec(key);
+
+				key = key.replace(/\[\d*\]$/, '');
+
+				if (!result) {
+					accumulator[key] = value;
+					return;
+				}
+
+				if (accumulator[key] === undefined) {
+					accumulator[key] = {};
+				}
+
+				accumulator[key][result[1]] = value;
+			};
+
+		case 'bracket':
+			return (key, value, accumulator) => {
+				result = /(\[\])$/.exec(key);
+				key = key.replace(/\[\]$/, '');
+
+				if (!result) {
+					accumulator[key] = value;
+					return;
+				}
+
+				if (accumulator[key] === undefined) {
+					accumulator[key] = [value];
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+
+		case 'comma':
+		case 'separator':
+			return (key, value, accumulator) => {
+				const isArray = typeof value === 'string' && value.split('').indexOf(options.arrayFormatSeparator) > -1;
+				const newValue = isArray ? value.split(options.arrayFormatSeparator).map(item => decode(item, options)) : value === null ? value : decode(value, options);
+				accumulator[key] = newValue;
+			};
+
+		default:
+			return (key, value, accumulator) => {
+				if (accumulator[key] === undefined) {
+					accumulator[key] = value;
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+	}
+}
+
+function validateArrayFormatSeparator(value) {
+	if (typeof value !== 'string' || value.length !== 1) {
+		throw new TypeError('arrayFormatSeparator must be single character string');
+	}
+}
+
+function encode(value, options) {
+	if (options.encode) {
+		return options.strict ? strictUriEncode(value) : encodeURIComponent(value);
+	}
+
+	return value;
+}
+
+function decode(value, options) {
+	if (options.decode) {
+		return decodeComponent(value);
+	}
+
+	return value;
+}
+
+function keysSorter(input) {
+	if (Array.isArray(input)) {
+		return input.sort();
+	}
+
+	if (typeof input === 'object') {
+		return keysSorter(Object.keys(input))
+			.sort((a, b) => Number(a) - Number(b))
+			.map(key => input[key]);
+	}
+
+	return input;
+}
+
+function removeHash(input) {
+	const hashStart = input.indexOf('#');
+	if (hashStart !== -1) {
+		input = input.slice(0, hashStart);
+	}
+
+	return input;
+}
+
+function getHash(url) {
+	let hash = '';
+	const hashStart = url.indexOf('#');
+	if (hashStart !== -1) {
+		hash = url.slice(hashStart);
+	}
+
+	return hash;
+}
+
+function extract(input) {
+	input = removeHash(input);
+	const queryStart = input.indexOf('?');
+	if (queryStart === -1) {
+		return '';
+	}
+
+	return input.slice(queryStart + 1);
+}
+
+function parseValue(value, options) {
+	if (options.parseNumbers && !Number.isNaN(Number(value)) && (typeof value === 'string' && value.trim() !== '')) {
+		value = Number(value);
+	} else if (options.parseBooleans && value !== null && (value.toLowerCase() === 'true' || value.toLowerCase() === 'false')) {
+		value = value.toLowerCase() === 'true';
+	}
+
+	return value;
+}
+
+function parse(input, options) {
+	options = Object.assign({
+		decode: true,
+		sort: true,
+		arrayFormat: 'none',
+		arrayFormatSeparator: ',',
+		parseNumbers: false,
+		parseBooleans: false
+	}, options);
+
+	validateArrayFormatSeparator(options.arrayFormatSeparator);
+
+	const formatter = parserForArrayFormat(options);
+
+	// Create an object with no prototype
+	const ret = Object.create(null);
+
+	if (typeof input !== 'string') {
+		return ret;
+	}
+
+	input = input.trim().replace(/^[?#&]/, '');
+
+	if (!input) {
+		return ret;
+	}
+
+	for (const param of input.split('&')) {
+		let [key, value] = splitOnFirst(options.decode ? param.replace(/\+/g, ' ') : param, '=');
+
+		// Missing `=` should be `null`:
+		// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+		value = value === undefined ? null : ['comma', 'separator'].includes(options.arrayFormat) ? value : decode(value, options);
+		formatter(decode(key, options), value, ret);
+	}
+
+	for (const key of Object.keys(ret)) {
+		const value = ret[key];
+		if (typeof value === 'object' && value !== null) {
+			for (const k of Object.keys(value)) {
+				value[k] = parseValue(value[k], options);
+			}
+		} else {
+			ret[key] = parseValue(value, options);
+		}
+	}
+
+	if (options.sort === false) {
+		return ret;
+	}
+
+	return (options.sort === true ? Object.keys(ret).sort() : Object.keys(ret).sort(options.sort)).reduce((result, key) => {
+		const value = ret[key];
+		if (Boolean(value) && typeof value === 'object' && !Array.isArray(value)) {
+			// Sort object keys, not values
+			result[key] = keysSorter(value);
+		} else {
+			result[key] = value;
+		}
+
+		return result;
+	}, Object.create(null));
+}
+
+exports.extract = extract;
+exports.parse = parse;
+
+exports.stringify = (object, options) => {
+	if (!object) {
+		return '';
+	}
+
+	options = Object.assign({
+		encode: true,
+		strict: true,
+		arrayFormat: 'none',
+		arrayFormatSeparator: ','
+	}, options);
+
+	validateArrayFormatSeparator(options.arrayFormatSeparator);
+
+	const shouldFilter = key => (
+		(options.skipNull && isNullOrUndefined(object[key])) ||
+		(options.skipEmptyString && object[key] === '')
+	);
+
+	const formatter = encoderForArrayFormat(options);
+
+	const objectCopy = {};
+
+	for (const key of Object.keys(object)) {
+		if (!shouldFilter(key)) {
+			objectCopy[key] = object[key];
+		}
+	}
+
+	const keys = Object.keys(objectCopy);
+
+	if (options.sort !== false) {
+		keys.sort(options.sort);
+	}
+
+	return keys.map(key => {
+		const value = object[key];
+
+		if (value === undefined) {
+			return '';
+		}
+
+		if (value === null) {
+			return encode(key, options);
+		}
+
+		if (Array.isArray(value)) {
+			return value
+				.reduce(formatter(key), [])
+				.join('&');
+		}
+
+		return encode(key, options) + '=' + encode(value, options);
+	}).filter(x => x.length > 0).join('&');
+};
+
+exports.parseUrl = (input, options) => {
+	options = Object.assign({
+		decode: true
+	}, options);
+
+	const [url, hash] = splitOnFirst(input, '#');
+
+	return Object.assign(
+		{
+			url: url.split('?')[0] || '',
+			query: parse(extract(input), options)
+		},
+		options && options.parseFragmentIdentifier && hash ? {fragmentIdentifier: decode(hash, options)} : {}
+	);
+};
+
+exports.stringifyUrl = (input, options) => {
+	options = Object.assign({
+		encode: true,
+		strict: true
+	}, options);
+
+	const url = removeHash(input.url).split('?')[0] || '';
+	const queryFromUrl = exports.extract(input.url);
+	const parsedQueryFromUrl = exports.parse(queryFromUrl, {sort: false});
+
+	const query = Object.assign(parsedQueryFromUrl, input.query);
+	let queryString = exports.stringify(query, options);
+	if (queryString) {
+		queryString = `?${queryString}`;
+	}
+
+	let hash = getHash(input.url);
+	if (input.fragmentIdentifier) {
+		hash = `#${encode(input.fragmentIdentifier, options)}`;
+	}
+
+	return `${url}${queryString}${hash}`;
+};
+
+},{"decode-uri-component":28,"split-on-first":81,"strict-uri-encode":82}],80:[function(require,module,exports){
 /* smoothscroll v0.4.4 - 2019 - Dustan Kasten, Jeremias Menichelli - MIT License */
 (function () {
   'use strict';
@@ -4247,7 +5026,35 @@ process.umask = function() { return 0; };
 
 }());
 
-},{}],75:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
+'use strict';
+
+module.exports = (string, separator) => {
+	if (!(typeof string === 'string' && typeof separator === 'string')) {
+		throw new TypeError('Expected the arguments to be of type `string`');
+	}
+
+	if (separator === '') {
+		return [string];
+	}
+
+	const separatorIndex = string.indexOf(separator);
+
+	if (separatorIndex === -1) {
+		return [string];
+	}
+
+	return [
+		string.slice(0, separatorIndex),
+		string.slice(separatorIndex + separator.length)
+	];
+};
+
+},{}],82:[function(require,module,exports){
+'use strict';
+module.exports = str => encodeURIComponent(str).replace(/[!'()*]/g, x => `%${x.charCodeAt(0).toString(16).toUpperCase()}`);
+
+},{}],83:[function(require,module,exports){
 function normalize (str) {
   return str
           .replace(/[\/]+/g, '/')
@@ -4260,7 +5067,7 @@ module.exports = function () {
   var joined = [].slice.call(arguments, 0).join('/');
   return normalize(joined);
 };
-},{}],76:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 (function(module) {
     'use strict';
 
@@ -4415,4 +5222,4 @@ module.exports = function () {
 
 })(module);
 
-},{}]},{},[10]);
+},{}]},{},[13]);

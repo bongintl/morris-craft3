@@ -1,0 +1,15 @@
+contentColumnType: text
+fieldGroup: 70570246-f0a3-4045-be5d-920de34efc33
+handle: footnote
+instructions: ''
+name: Footnote
+searchable: true
+settings:
+  charLimit: ''
+  columnType: text
+  initialRows: '4'
+  multiline: '1'
+  placeholder: ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

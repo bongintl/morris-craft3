@@ -1,0 +1,38 @@
+enableVersioning: true
+entryTypes:
+  655c68bb-c742-4957-a7cc-47b74fda5472:
+    fieldLayouts:
+      221f8c09-2447-418f-b7f2-db0f7354057e:
+        tabs:
+          -
+            fields:
+              31d389f3-2649-476e-9106-f3049251746b:
+                required: false
+                sortOrder: 1
+              94165b69-0e1e-42f0-b690-5d230876fdf4:
+                required: false
+                sortOrder: 2
+            name: Content
+            sortOrder: 1
+    handle: atLarge
+    hasTitleField: true
+    name: 'At large'
+    sortOrder: 1
+    titleFormat: '{section.name|raw}'
+    titleLabel: Title
+handle: atLarge
+name: 'At large'
+previewTargets: null
+propagationMethod: all
+siteSettings:
+  17808e62-8917-49fe-bdc9-0160f24e5332:
+    enabledByDefault: true
+    hasUrls: true
+    template: at-large
+    uriFormat: at-large
+  eed39bce-29a0-4ce8-8920-cc743c55a6f1:
+    enabledByDefault: true
+    hasUrls: true
+    template: at-large
+    uriFormat: at-large
+type: single
