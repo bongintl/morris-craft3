@@ -92,11 +92,11 @@
                 
                 <div class="entry__body">
                     
-                    <div class="entry__image entry__image--{{ orient }} entry__image--secondary">
+                    <div class="entry__image entry__image--landscape entry__image--secondary">
                     {% if thumb|length %}
                         {% include 'includes/asset' with {
                             asset: thumb,
-                            fit: orient == 'portrait' ? 'contain' : 'cover'
+                            fit: 'cover'
                         } %}   
                     {% endif %}
                     </div>
