@@ -45,8 +45,12 @@ const initMap = (containerEl, page) => {
                 latLng: new LatLng(Number( element.dataset.lat ), Number( element.dataset.lng )),
                 category: element.dataset.category
             }))
-            this.containerOverlay = containerEl.querySelector(".map-container__overlay")
-            this.containerOverlay.addEventListener("click", () => this.setActive(null));
+            this.containerOverlay = document.createElement('div');
+            this.containerOverlay.classList.add("map-container__overlay");
+            this.containerOverlay.addEventListener("click", e => {
+                e.stopPropagation();
+                this.setActive(null)
+            });
             elements.forEach((element, i) => {
                 element.addEventListener('click', e => {
                     e.stopPropagation();
@@ -57,6 +61,7 @@ const initMap = (containerEl, page) => {
         }
         onAdd() {
             const panes = this.getPanes();
+            panes.overlayMouseTarget.appendChild(this.containerOverlay); 
             this.items.forEach(item => {
                 panes.overlayMouseTarget.appendChild(item.element);    
             })
