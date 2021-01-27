@@ -1111,18 +1111,13 @@ div.asset {
     cursor: pointer;
     padding: 15px;
     color: inherit;
+    font-size: 15px;
     opacity: 0;
     pointer-events: none;
     transition: opacity .3s; }
-    .page--large .map-container__preview {
-      font-size: 25px; }
-    .page--medium .map-container__preview {
-      font-size: 21px; }
-    .page--small .map-container__preview {
-      font-size: 15px; }
-      @media (max-width: 640px) {
-        .page--small .map-container__preview {
-          font-size: 21px; } }
+    @media (min-width: 640px) {
+      .map-container__preview {
+        display: none; } }
     .map-container__preview_active {
       pointer-events: visible;
       opacity: 1; }

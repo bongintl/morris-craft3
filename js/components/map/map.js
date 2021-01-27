@@ -17,7 +17,7 @@ const listen = events => {
 
 const initMap = (containerEl, page) => {
     /* global google */
-    const { Map, LatLng, LatLngBounds, OverlayView } = google.maps;
+    const { Map, LatLng, LatLngBounds, OverlayView, Point } = google.maps;
     const mapEl = containerEl.querySelector('.map-container__map');
     const map = new Map( mapEl, {
         zoom: 1,
@@ -92,10 +92,38 @@ const initMap = (containerEl, page) => {
                 item.previewElement.classList.toggle("map-container__preview_active", i === index)
             });
             this.containerOverlay.classList.toggle('map-container__overlay_active', index !== null)
-            if ( index !== null && window.innerWidth < 768) {
+            if ( index !== null) {
+                this.centerItem(this.items[index]);
                 panels.focus(1)
-                map.panTo(this.items[index].latLng)
             }
+        }
+        centerItem (item) {
+            const markerRect = item.element.getBoundingClientRect();
+            const contentRect = item.element.querySelector(".map-item__content").getBoundingClientRect();
+            const markerCenter = [
+                markerRect.left + markerRect.width / 2,
+                markerRect.top + markerRect.height / 2
+            ];
+            const contentHidden = contentRect.width === 0 && contentRect.height === 0;
+            const contentCenter = contentHidden
+                ? markerCenter
+                : [
+                    contentRect.left + contentRect.width / 2,
+                    contentRect.top + contentRect.height / 2
+                ];
+            const offset = [
+                markerCenter[0] - contentCenter[0],
+                markerCenter[1] - contentCenter[1],
+            ]
+            const scale = Math.pow(2, map.getZoom());
+            const worldCoordinateCenter = map.getProjection().fromLatLngToPoint(item.latLng);
+            const pixelOffset = new Point((offset[0] / scale) || 0,(offset[1] / scale) ||0);
+            const worldCoordinateNewCenter = new google.maps.Point(
+                worldCoordinateCenter.x - pixelOffset.x,
+                worldCoordinateCenter.y - pixelOffset.y
+            );
+            const newCenter = map.getProjection().fromPointToLatLng(worldCoordinateNewCenter);
+            map.panTo(newCenter);
         }
     }
     const overlay = new MocoOverlay();

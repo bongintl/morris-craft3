@@ -46,7 +46,7 @@ var route = ( path, panelSizes ) => {
 
 route( '/', layouts.menu )
 route( '/voices', layouts.menu )
-// route( '/contact', layouts.menu, 'home' )
+route( '/contact', layouts.menu )
 // route( '/work/:slug', layouts.default, 'work' )
 // route( '/index.php?p=contact', layouts.default, 1 )
 
