@@ -6,7 +6,7 @@
 ] | join(' ') %}
 
     <img class="{{ classes }}">
-{#
+
 {% switch asset.kind %}
     {% case 'image' %}
         {% set src = asset.getURL('xsmall') %}
@@ -36,4 +36,3 @@
     {% default %}
         Unknown asset type: {{ asset.kind }}
 {% endswitch %}
-#}
