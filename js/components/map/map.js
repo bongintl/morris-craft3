@@ -1,3 +1,4 @@
+const pagejs = require('page');
 const styles = require('./mapStyles.js')
 const loadScript = require('../../utils/loadScript');
 const panels = require('../../panels');
@@ -60,6 +61,11 @@ const initMap = (containerEl, page) => {
                     e.stopPropagation();
                     this.setActive(i)
                 })
+                element.querySelector('a').addEventListener("click", e => {
+                    e.stopPropagation();
+                    pagejs.clickHandler(e);
+                })
+                
             })
             containPoints(this.items.map(item => item.latLng))
         }

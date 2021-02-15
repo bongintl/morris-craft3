@@ -23,6 +23,11 @@
         overflow-y: scroll;
         padding-right: 20px;
         -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
 
         // https://github.com/scottjehl/Device-Bugs/issues/8#issuecomment-5742063
         // * {

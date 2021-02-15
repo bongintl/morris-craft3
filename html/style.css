@@ -327,7 +327,11 @@ a:hover, .menu__social a:hover {
     overflow-x: visible;
     overflow-y: scroll;
     padding-right: 20px;
-    -webkit-overflow-scrolling: touch; }
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; }
+    .page__content::-webkit-scrollbar {
+      width: 0px;
+      background: transparent; }
   .page__scrollbar {
     position: absolute;
     background: rgba(0, 0, 0, 0.25);

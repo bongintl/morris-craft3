@@ -5,9 +5,9 @@
     fit is defined ? "asset--#{ fit }" : ''
 ] | join(' ') %}
 
-    <!--<img class="{{ classes }}">-->
+<img class="{{ classes }}">
     
-    
+{#
     
 
 {% switch asset.kind %}
@@ -39,3 +39,5 @@
     {% default %}
         Unknown asset type: {{ asset.kind }}
 {% endswitch %}
+
+#}
