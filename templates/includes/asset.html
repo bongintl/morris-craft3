@@ -1,3 +1,4 @@
+{#
 {% set classes = [
     class | default( '' ),
     'asset',
@@ -6,9 +7,8 @@
 ] | join(' ') %}
 
 <img class="{{ classes }}">
-    
-{#
-    
+#} 
+
 
 {% switch asset.kind %}
     {% case 'image' %}
@@ -39,5 +39,3 @@
     {% default %}
         Unknown asset type: {{ asset.kind }}
 {% endswitch %}
-
-#}
