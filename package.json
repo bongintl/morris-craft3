@@ -33,7 +33,7 @@
     "eases": "^1.0.8",
     "fastdom": "^1.0.8",
     "join-path": "^1.1.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.21",
     "page": "^1.8.6",
     "query-string": "^6.13.1",
     "smoothscroll-polyfill": "^0.4.3"
