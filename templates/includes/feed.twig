@@ -6,7 +6,7 @@
 
     {% if relatedPosts|length %}
         {% for entry in relatedPosts %}
-            {% include 'includes/feed--item.html' %}
+            {% include 'includes/feed--item.twig' %}
         {% endfor %}
     {% endif %}
 

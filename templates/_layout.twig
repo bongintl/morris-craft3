@@ -61,10 +61,6 @@
 			</div>
 		</div>
 	</div>
-	<!--<div class="toggle">-->
-	<!--	{% include 'includes/plus.html' %}-->
-	<!--</div>-->
-	<!--</div>-->
 	<div class="title">
 		{% block title %}{% endblock %}
 	</div>
@@ -72,21 +68,21 @@
 	<div class="divider">
 		<div class="divider__back">
 			{% block back %}
-				<a href="{{ siteUrl }}">{% include 'includes/logo.html' %}</a>
+				<a href="{{ siteUrl }}">{% include 'includes/logo.twig' %}</a>
 			{% endblock %}
 		</div>
 		<div class="divider__handle">
-			{% include 'includes/logo.html' %}
+			{% include 'includes/logo.twig' %}
 			<div class="divider__toggle"></div>
 		</div>
 		{#
 		<div class="divider__toggle">
-			{% include 'includes/logo.html' %}
+			{% include 'includes/logo.twig' %}
 		</div>
 		#}
 	</div>
 	{% if intro %}
-		{% include 'includes/slider.html' %}
+		{% include 'includes/slider.twig' %}
 	{% endif %}
 
 	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch"></script>

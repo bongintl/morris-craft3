@@ -1,7 +1,7 @@
 {% extends "_layout" %}
 
 {% block back %}
-    <a href="{{ siteUrl }}">{% include 'includes/logo.html' %}</a>
+    <a href="{{ siteUrl }}">{% include 'includes/logo.twig' %}</a>
 {% endblock %}
 
 {% block title %}
@@ -50,5 +50,5 @@
 
 {% set id_left="at-large-feed" %}
 {% block right %}
-    {% include 'includes/feed.html' %}
+    {% include 'includes/feed.twig' %}
 {% endblock %}

@@ -7,7 +7,7 @@
 {% set id_left = 'about' %}
 {% block left %}
     <div class="row row--empty"></div>
-    {% include 'includes/rows.html' %}
+    {% include 'includes/rows.twig' %}
     <div class="row row__footnote">
         <small>{{ entry.footnote }}</small>
     </div>
@@ -16,5 +16,5 @@
 
 {% set id_right = 'about-feed' %}
 {% block right %}
-    {% include 'includes/feed.html' %}
+    {% include 'includes/feed.twig' %}
 {% endblock %}

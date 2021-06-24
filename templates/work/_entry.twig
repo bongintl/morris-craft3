@@ -17,7 +17,7 @@
         {% endfor  %}
     </div>
     
-    {% include 'includes/rows.html' %}
+    {% include 'includes/rows.twig' %}
     
     <div class="row row__related">
         
@@ -54,5 +54,5 @@
 
 {% set id_right = 'work-feed-' ~ entry.slug %}
 {% block right %}
-    {% include 'includes/feed.html' %}
+    {% include 'includes/feed.twig' %}
 {% endblock %}
