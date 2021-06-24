@@ -26,13 +26,14 @@ fields:
     settings:
       allowSelfRelations: false
       allowUploads: true
-      allowedKinds: null
+      allowedKinds:
+        - image
       defaultUploadLocationSource: 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
       defaultUploadLocationSubpath: ''
       limit: '2'
       localizeRelations: false
       previewMode: full
-      restrictFiles: ''
+      restrictFiles: '1'
       selectionLabel: ''
       showSiteMenu: true
       showUnpermittedFiles: false

@@ -1,11 +1,11 @@
 field: 27a42825-a247-4f3e-9426-5dfbf106c6b8
 fieldLayouts:
-  e5c1c5a8-5613-48b0-8cf8-5eb1c60325be:
+  f63baa8f-ccff-41a8-b6d8-cf908bc2c87d:
     tabs:
       -
         elements:
           -
-            fieldUid: 028374d8-6cdd-4d8c-92c2-bde76f0fc8d1
+            fieldUid: c2de8ff0-cbd3-4186-8233-d9bdfa5ad099
             instructions: null
             label: null
             required: true
@@ -14,7 +14,7 @@ fieldLayouts:
             warning: null
             width: 100
           -
-            fieldUid: e086bce8-ade7-477a-8dbb-3ea14fc6b683
+            fieldUid: d062e329-cab4-4b9f-a1a7-b92ad6463f3a
             instructions: null
             label: null
             required: true
@@ -25,7 +25,7 @@ fieldLayouts:
         name: Content
         sortOrder: 1
 fields:
-  028374d8-6cdd-4d8c-92c2-bde76f0fc8d1:
+  c2de8ff0-cbd3-4186-8233-d9bdfa5ad099:
     contentColumnType: string
     fieldGroup: null
     handle: file
@@ -58,7 +58,7 @@ fields:
     translationKeyFormat: null
     translationMethod: site
     type: craft\fields\Assets
-  e086bce8-ade7-477a-8dbb-3ea14fc6b683:
+  d062e329-cab4-4b9f-a1a7-b92ad6463f3a:
     contentColumnType: boolean
     fieldGroup: null
     handle: autoplay

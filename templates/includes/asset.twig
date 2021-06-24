@@ -10,8 +10,7 @@
         {% set src = asset.getURL('xsmall') %}
         {% set srcset = [] %}
         {% set naturalWidth = asset.width %}
-        {# {% for transform in [ 'xsmall', 'small', 'medium', 'large', 'xlarge' ] %} #}
-        {% for transform in [ 'xsmall' ] %}
+        {% for transform in [ 'xsmall', 'small', 'medium', 'large', 'xlarge' ] %}
             {% set w = asset.getWidth( transform ) %}
             {% if w <= naturalWidth %}
                 {% set url = asset.getURL( transform ) %}
