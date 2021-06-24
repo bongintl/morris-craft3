@@ -31,6 +31,15 @@
             {% endfor  %}
         </div>
         
+    {% elseif row.type == 'video' %}
+    
+        {% set assets = row.file.all() %}
+        {% for asset in assets %}
+            <div class="row row__image">
+                {% include 'includes/asset' with { fit: 'contain', autoplay: row.autoplay } %}
+            </div>
+        {% endfor  %}
+        
     {% elseif row.type == 'quote' %}
     
         <div class="row row__quote">

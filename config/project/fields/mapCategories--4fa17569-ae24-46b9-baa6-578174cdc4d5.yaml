@@ -1,14 +1,14 @@
 contentColumnType: string
 fieldGroup: a4f1c8af-a0bb-4f6c-ab4b-a7db65c8146b
-handle: mapCategory
+handle: mapCategories
 instructions: ''
-name: 'Map Category'
+name: 'Map Categories'
 searchable: true
 settings:
   allowLimit: false
   allowMultipleSources: false
   allowSelfRelations: false
-  branchLimit: '1'
+  branchLimit: ''
   limit: null
   localizeRelations: false
   selectionLabel: ''

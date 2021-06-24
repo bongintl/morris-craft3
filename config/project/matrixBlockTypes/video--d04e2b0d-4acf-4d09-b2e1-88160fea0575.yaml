@@ -1,14 +1,23 @@
 field: 27a42825-a247-4f3e-9426-5dfbf106c6b8
 fieldLayouts:
-  b76d189c-1b58-4161-9902-16f49f8938c7:
+  e5c1c5a8-5613-48b0-8cf8-5eb1c60325be:
     tabs:
       -
         elements:
           -
-            fieldUid: 88d49b53-97ff-45a1-804e-2c7b387e46ba
+            fieldUid: 028374d8-6cdd-4d8c-92c2-bde76f0fc8d1
             instructions: null
             label: null
-            required: false
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            warning: null
+            width: 100
+          -
+            fieldUid: e086bce8-ade7-477a-8dbb-3ea14fc6b683
+            instructions: null
+            label: null
+            required: true
             tip: null
             type: craft\fieldlayoutelements\CustomField
             warning: null
@@ -16,18 +25,18 @@ fieldLayouts:
         name: Content
         sortOrder: 1
 fields:
-  88d49b53-97ff-45a1-804e-2c7b387e46ba:
+  028374d8-6cdd-4d8c-92c2-bde76f0fc8d1:
     contentColumnType: string
     fieldGroup: null
     handle: file
     instructions: ''
     name: File
-    searchable: true
+    searchable: false
     settings:
       allowSelfRelations: false
       allowUploads: true
       allowedKinds:
-        - image
+        - video
       defaultUploadLocationSource: 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
       defaultUploadLocationSubpath: ''
       limit: '1'
@@ -35,9 +44,9 @@ fields:
       previewMode: full
       restrictFiles: '1'
       selectionLabel: ''
-      showSiteMenu: true
+      showSiteMenu: false
       showUnpermittedFiles: false
-      showUnpermittedVolumes: true
+      showUnpermittedVolumes: false
       singleUploadLocationSource: 'volume:5d3d09ff-0c90-413e-a9ca-4282574853fa'
       singleUploadLocationSubpath: ''
       source: null
@@ -45,10 +54,24 @@ fields:
       targetSiteId: null
       useSingleFolder: false
       validateRelatedElements: false
-      viewMode: large
+      viewMode: list
     translationKeyFormat: null
     translationMethod: site
     type: craft\fields\Assets
-handle: image
-name: Image
-sortOrder: 3
+  e086bce8-ade7-477a-8dbb-3ea14fc6b683:
+    contentColumnType: boolean
+    fieldGroup: null
+    handle: autoplay
+    instructions: ''
+    name: 'Autoplay & Mute'
+    searchable: false
+    settings:
+      default: true
+      offLabel: null
+      onLabel: null
+    translationKeyFormat: null
+    translationMethod: none
+    type: craft\fields\Lightswitch
+handle: video
+name: Video
+sortOrder: 5

@@ -49,5 +49,5 @@ fields:
     translationMethod: site
     type: craft\fields\Assets
 handle: twoImage
-name: 'Two Image / Video'
+name: 'Two Images'
 sortOrder: 4

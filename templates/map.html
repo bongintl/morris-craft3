@@ -18,6 +18,7 @@
                     class="map-filters__category map-filters__category_active"
                     style="color: {{ category.color }}"
                     data-filter="{{ category.slug }}"
+                    data-color="{{category.color}}"
                 >{{ category.title }}</a>
             {% endfor %}
         </div>
@@ -53,13 +54,16 @@
     <div class="map-container" data-api-key="{{ craft.simpleMap.getMapToken }}">
         <div class="map-container__map"></div>
         {% for entry in mapEntries %}
-            {% set category = entry.mapCategory.first %}
-            {% set color = category ? category.color : null %}
+            {% set categories = [] %}
+            {% for category in entry.mapCategories %}
+                {% set categories = categories | merge([category.slug]) %}
+            {% endfor %}
+            {% set color = entry.mapCategories.count ? entry.mapCategories.first.color : null %}
             <div
                 class="map-item"
                 data-lat="{{ entry.mapLocation.lat }}"
                 data-lng="{{ entry.mapLocation.lng }}"
-                data-category="{{ category ? category.slug : '' }}"
+                data-categories="{{ categories | join(',') }}"
             >
                 <a class="map-item__content" href="{{ entry.url }}" style="color: {{ color ?? 'inherit' }}">
                     {% set thumb = entry.thumbnail[ 0 ] %}
@@ -83,7 +87,7 @@
             <div class="zoom-out">–</div>
         </div>
         {% for entry in mapEntries %}
-            {% set category = entry.mapCategory.first %}
+            {% set category = entry.mapCategories.first %}
             {% set color = category ? category.color : null %}
             <a
                 class="map-container__preview"
