@@ -1,0 +1,35 @@
+{% extends "_layout" %}
+
+{% block back %}{% endblock %}
+
+{% block title %}{% endblock %}
+
+{% set id_left="menu" %}
+{% block left %}
+    {% include 'includes/menu' %}
+{% endblock %}
+
+{% set id_left="awards" %}
+{% block right %}
+  <div class="awards">
+    <ul class="list list--expanded">
+        <div class="list__items list__items--nopad">
+        {% for item in entry.awards.all() %}
+    
+            {% if item.type == 'heading' %}
+            <li class="list__item item__title">
+                {{ item.heading }}
+            </li>
+            {% elseif item.type == 'links' %}
+                
+                <div class="item__content item__content--indent">
+                    {{ item.links }}
+                </div>        
+                
+            {% endif %}
+        
+        {% endfor %}
+        </div>
+    </ul>
+  </div>
+{% endblock %}

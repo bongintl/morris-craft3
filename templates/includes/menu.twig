@@ -22,7 +22,7 @@
                 <a class="menu__item" href="/about?side=1" data-category-filter=''><span>{{ 'About' | t }}</span></a>
                 <a class="menu__item" href="/people?side=1" data-category-filter=''><span>{{ 'People' | t }}</span></a>
 
-                {% for handle in [ 'contact' ] %}
+                {% for handle in [ 'awards', 'contact' ] %}
                     {% set entry = craft.entries.section( handle ).one %}
                     {% if entry %}
                         <a class="menu__item" href="{{ entry.url }}" data-side="{{ handle == 'contact' ? 1 : 0 }}"><span>{{ entry.title }}</span></a>
