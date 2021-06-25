@@ -1,232 +1,233 @@
 $dot-size: 0.8rem;
 
 @mixin dot {
-    display: flex;
-    // align-items: center;
-    &:before {
-        margin-top: 0.3rem;
-        content: "";
-        display: block;
-        width: $dot-size;
-        height: $dot-size;
-        margin-right: $dot-size;
-        border-radius: 100vw;
-        flex-grow: 0;
-        flex-shrink: 0;
-        box-sizing: border-box;
-        @content;
-    }
+  display: flex;
+  &:before {
+    margin-top: 0.3rem;
+    content: "";
+    display: block;
+    width: $dot-size;
+    height: $dot-size;
+    margin-right: $dot-size;
+    border-radius: 100vw;
+    flex-grow: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    @content;
+  }
 }
 
 .map-title {
-    display: none;
-    @media ( min-width: $breakpoint ) {
-        display: inline;
-    }
+  display: none;
+  @media (min-width: $breakpoint) {
+    display: inline;
+  }
 }
 
 .map-controls {
-    background: $bg-home;
-    min-height: 100%;
-    padding: 20px 20px 50px 20px;
-    padding-bottom: 1.1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    // position: absolute;
-    // top: 0;
-    // left: 0;
-    // width: 100%;
-    // height: 100%;
-    .page--large & {
-        font-size: 25px;
+  background: $bg-home;
+  min-height: 100%;
+  padding: 20px 20px 50px 20px;
+  padding-bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  // position: absolute;
+  // top: 0;
+  // left: 0;
+  // width: 100%;
+  // height: 100%;
+  .page--large & {
+    font-size: 25px;
+  }
+  .page--medium & {
+    font-size: 21px;
+  }
+  .page--small & {
+    font-size: 15px;
+    @media (max-width: $breakpoint) {
+      font-size: 21px;
     }
-    .page--medium & {
-        font-size: 21px;
-    }
-    .page--small & {
-        font-size: 15px;
-        @media (max-width: $breakpoint) {
-            font-size: 21px;
-        }
-    }
+  }
 }
 
 .map-filters {
-    padding-bottom: 1.1em;
-    &__title {
-        font-weight: 500;
+  padding-bottom: 1.1em;
+  &__title {
+    font-weight: 500;
+  }
+  &__category {
+    display: block;
+    font-weight: 500;
+    cursor: pointer;
+    @include dot {
+      background-color: transparent;
+      transition: background-color 0.2s;
     }
-    &__category {
-        display: block;
-        font-weight: 500;
-        cursor: pointer;
-        @include dot {
-            background-color: transparent;
-            transition: background-color 0.2s;
-        }
-        &_active:before {
-            background-color: currentColor;
-        }
+    &_active:before {
+      background-color: currentColor;
     }
-    &__clear {
-        cursor: pointer;
-    }
+  }
+  &__clear {
+    cursor: pointer;
+  }
 }
 
 .map-views {
-    &__title {
-        font-weight: 500;
+  &__title {
+    font-weight: 500;
+  }
+  &__view {
+    cursor: pointer;
+    @include dot {
+      border: 1px solid black;
+      background-color: transparent;
+      transition: background-color 0.2s;
     }
-    &__view {
-        cursor: pointer;
-        @include dot {
-            border: 1px solid black;
-            background-color: transparent;
-            transition: background-color 0.2s;
-        };
-        &:hover:before {
-            background-color: currentColor;
-        }
+    &:hover:before {
+      background-color: currentColor;
     }
+  }
 }
 
 .map-container {
-    background: $bg-home;
+  background: $bg-home;
+  width: 100%;
+  height: 100%;
+  &__map {
+    position: absolute;
     width: 100%;
     height: 100%;
-    &__map {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
-    &__controls {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        font-size: 80px;
-        display: flex;
-        flex-direction: column;
-        line-height: 0.8;
-        align-items: center;
-        cursor: pointer;
-        .page--small & {
-            display: none;
-        }
-    }
-    &__overlay {
-        position: absolute;
-        width: 300vw;
-        height: 300vh;
-        top: -150vh;
-        left: -150vw;
-        background: rgba(255, 255, 255, 0.7);
-        opacity: 0;
-        pointer-events: none;
-        z-index: 5;
-        &_active {
-            opacity: 1;
-            pointer-events: visible;
-        }
-    }
-    &__preview {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        line-height: 1.1;
-        transition: opacity 0.2s;
-        cursor: pointer;
-        padding: 15px;
-        color: inherit;
-        font-size: 15px;
-        @media (min-width: $breakpoint) {
-            display: none;
-        }
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity .3s;
-        &_active {
-            pointer-events: visible;
-            opacity: 1;
-        }
-    }
-}
-
-.map-item {
+  }
+  &__controls {
     position: absolute;
-    top: 0;
-    left: 0;
+    bottom: 20px;
+    right: 20px;
+    font-size: 80px;
     display: flex;
     flex-direction: column;
-    width: $dot-size;
-    height: $dot-size;
-    margin-top: $dot-size * -0.5;
-    margin-left: $dot-size * -0.5;
-    font-size: 25px;
+    line-height: 0.8;
+    align-items: center;
+    cursor: pointer;
+    .page--small & {
+      display: none;
+    }
+  }
+  &__overlay {
+    position: absolute;
+    width: 300vw;
+    height: 300vh;
+    top: -150vh;
+    left: -150vw;
+    background: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+    &_active {
+      opacity: 1;
+      pointer-events: visible;
+    }
+  }
+  &__preview {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     line-height: 1.1;
     transition: opacity 0.2s;
     cursor: pointer;
-    .page--large & {
-        font-size: 25px;
+    padding: 15px;
+    color: inherit;
+    font-size: 15px;
+    @media (min-width: $breakpoint) {
+      display: none;
     }
-    .page--medium & {
-        font-size: 21px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    &_active {
+      pointer-events: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.map-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: $dot-size;
+  height: $dot-size;
+  margin-top: $dot-size * -0.5;
+  margin-left: $dot-size * -0.5;
+  font-size: 25px;
+  line-height: 1.1;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  color: var(--filter-color, var(--default-color));
+  .page--large & {
+    font-size: 25px;
+  }
+  .page--medium & {
+    font-size: 21px;
+  }
+  .page--small & {
+    font-size: 15px;
+    @media (max-width: $breakpoint) {
+      font-size: 21px;
+    }
+  }
+  &__content {
+    position: absolute;
+    bottom: 100%;
+    width: 25vw;
+    margin-bottom: 5px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+    .map-item_active & {
+      opacity: 1;
+      pointer-events: visible;
     }
     .page--small & {
-        font-size: 15px;
-        @media (max-width: $breakpoint) {
-            font-size: 21px;
-        }
+      display: none;
     }
-    &__content {
-        position: absolute;
-        bottom: 100%;
-        width: 25vw;
-        margin-bottom: 5px;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity .4s;
-        .map-item_active & {
-            opacity: 1;
-            pointer-events: visible;
-        }
-        .page--small & {
-            display: none;
-        }
+  }
+  &__dot {
+    width: $dot-size;
+    height: $dot-size;
+    border-radius: 50%;
+    background-color: black;
+    flex-shrink: 0;
+    flex-grow: 0;
+    background-color: var(--filter-color, var(--default-color));
+    &:before {
+      content: "";
+      position: absolute;
+      width: 300%;
+      height: 300%;
+      top: -100%;
+      left: -100%;
     }
-    &__dot {
-        width: $dot-size;
-        height: $dot-size;
-        border-radius: 50%;
-        background-color: black;
-        flex-shrink: 0;
-        flex-grow: 0;
-        &:before {
-            content: "";
-            position: absolute;
-            width: 300%;
-            height: 300%;
-            top: -100%;
-            left: -100%;
-        }
+  }
+  &_active {
+    z-index: 10;
+  }
+  &_hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  &__image {
+    padding-bottom: 70%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.1);
+    &--portrait {
+      background-size: contain;
     }
-    &_active {
-        z-index: 10;
-    }
-    &_hidden {
-        opacity: 0;
-        pointer-events: none;
-    }
-    &__image {
-        padding-bottom: 70%;
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center center;
-        margin-bottom: 5px;
-        background-color: rgba(0,0,0,0.1);
-        &--portrait {
-            background-size: contain;
-        }
-    }
+  }
 }

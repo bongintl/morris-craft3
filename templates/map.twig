@@ -55,17 +55,18 @@
         <div class="map-container__map"></div>
         {% for entry in mapEntries %}
             {% set categories = [] %}
-            {% for category in entry.mapCategories %}
+            {% for category in entry.mapCategories.all %}
                 {% set categories = categories | merge([category.slug]) %}
             {% endfor %}
-            {% set color = entry.mapCategories.count ? entry.mapCategories.first.color : null %}
+            {% set color = entry.mapCategories.count ? entry.mapCategories.one.color : "#dcccad" %}
             <div
                 class="map-item"
                 data-lat="{{ entry.mapLocation.lat }}"
                 data-lng="{{ entry.mapLocation.lng }}"
                 data-categories="{{ categories | join(',') }}"
+                style="--default-color: {{color}}"
             >
-                <a class="map-item__content" href="{{ entry.url }}" style="color: {{ color ?? 'inherit' }}">
+                <a class="map-item__content" href="{{ entry.url }}">
                     {% set thumb = entry.thumbnail[ 0 ] %}
                     {% set orient = thumb.width <= thumb.height ? 'portrait' : 'landscape' %}
                     <div class="map-item__image entry__image--{{ orient }}">
@@ -79,7 +80,7 @@
                         <span class="map-item__location">{{ entry.location }}</span>
                     </div>
                 </a>
-                <div class="map-item__dot" style="background-color: {{ color }}"></div>
+                <div class="map-item__dot"></div>
             </div>
         {% endfor %}
         <div class="map-container__controls">
@@ -87,11 +88,11 @@
             <div class="zoom-out">–</div>
         </div>
         {% for entry in mapEntries %}
-            {% set category = entry.mapCategories.first %}
+            {% set category = entry.mapCategories.one %}
             {% set color = category ? category.color : null %}
             <a
                 class="map-container__preview"
-                style="color: {{ color }}"
+                style="--default-color: {{color}}"
                 href="{{ entry.url }}"
             >
                 {% set thumb = entry.thumbnail[ 0 ] %}
