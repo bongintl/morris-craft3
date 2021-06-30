@@ -221,9 +221,10 @@ const initControls = containerEl => {
 module.exports = (page, context) => {
   const mapContainerEl = page.querySelector(".map-container");
   if (mapContainerEl) {
-    loadScript(
-      `https://maps.googleapis.com/maps/api/js?key=${mapContainerEl.dataset.apiKey}`
-    ).then(() => initMap(mapContainerEl, page));
+    initMap(mapContainerEl, page);
+    // loadScript(
+    //   `https://maps.googleapis.com/maps/api/js?key=${mapContainerEl.dataset.apiKey}`
+    // ).then(() => initMap(mapContainerEl, page));
   }
   const mapControlsEl = page.querySelector(".map-controls");
   if (mapControlsEl) {
