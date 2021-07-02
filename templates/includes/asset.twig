@@ -6,33 +6,44 @@
 ] | join(' ') %}
 
 {% switch asset.kind %}
-    {% case 'image' %}
-        {% set src = asset.getURL('xsmall') %}
-        {% set srcset = [] %}
-        {% set naturalWidth = asset.width %}
-        {% for transform in [ 'xsmall', 'small', 'medium', 'large', 'xlarge' ] %}
-            {% set w = asset.getWidth( transform ) %}
-            {% if w <= naturalWidth %}
-                {% set url = asset.getURL( transform ) %}
-                {% set srcset = srcset | merge([ "#{ url } #{ w }w" ]) %}
-            {% endif %}
-        {% endfor %}
-        {% set srcset = srcset | join(', ') %}
-        {% if fit is defined %}
-            <div class="{{ classes }}" style="background-image: url({{ src }})" data-srcset="{{ srcset }}"></div>
-        {% else %}
-            <img class="{{ classes }}" src="{{ src }}" data-srcset="{{ srcset }}">
-        {% endif %}
-    {% case 'video' %}
-        {% set autoplay = autoplay ?? true %}
-        {% set attrs = autoplay ? "autoplay loop muted playsinline" : "controls" %}
-        {% if fit is defined %}
-            <div class="{{ classes }}">
-                <video src="{{ asset.url }}" {{ attrs }}></video>
-            </div>
-        {% else %}
-            <video class="{{ classes }}" src="{{ asset.url }}" {{ attrs }}></video>
-        {% endif %}
-    {% default %}
-        Unknown asset type: {{ asset.kind }}
+	{% case 'image' %}
+		{% set src = asset.getURL('xsmall') %}
+		{% set srcset = [] %}
+		{% set naturalWidth = asset.width %}
+		{% for transform in [ 'xsmall', 'small', 'medium', 'large', 'xlarge' ] %}
+			{% set w = asset.getWidth( transform ) %}
+			{% if w <= naturalWidth %}
+				{% set url = asset.getURL( transform ) %}
+				{% set srcset = srcset | merge([ "#{ url } #{ w }w" ]) %}
+			{% endif %}
+		{% endfor %}
+		{% set srcset = srcset | join(', ') %}
+		{% if fit is defined %}
+			<div class="{{ classes }}" style="background-image: url({{ src }})" data-srcset="{{ srcset }}"></div>
+		{% else %}
+			<img class="{{ classes }}" src="{{ src }}" data-srcset="{{ srcset }}">
+		{% endif %}
+	{% case 'video' %}
+
+		{% set autoplay = autoplay ?? true %}
+		{% set controls = controls ?? false %}
+		{% set attrs = [] %}
+		{% if autoplay %}
+			{% set attrs = attrs | merge(["autoplay", "loop", "muted", "playsinline"]) %}
+		{% endif %}
+		{% if controls %}
+			{% set attrs = attrs | merge(["controls"]) %}
+		{% endif %}
+
+		{% if fit is defined %}
+			<div class="{{ classes }}">
+				<video src="{{ asset.url }}" {{ attrs | join(" ") }}></video>
+			</div>
+		{% else %}
+			<video class="{{ classes }}" src="{{ asset.url }}" {{ attrs | join(" ") }}></video>
+		{% endif %}
+
+	{% default %}
+		Unknown asset type:
+		{{ asset.kind }}
 {% endswitch %}

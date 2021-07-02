@@ -1,58 +1,58 @@
 {% extends "_layout" %}
 
 {% block title %}
-    <h1>{{ entry.title }}</h1>
+	<h1>{{ entry.title }}</h1>
 {% endblock %}
 
 {% set id_left = 'work-content-' ~ entry.slug %}
 {% block left %}
-    <div class="row row--empty"></div>
-    <div class="row--{{ entry.section.handle }}">
-        
-        {% set assets = entry.thumbnail.all() %}
-        {% for asset in assets %}
-            <div class="row row__image row__image--first">
-                {% include 'includes/asset' with { asset: asset, fit: 'cover' } %}
-            </div>
-        {% endfor  %}
-    </div>
-    
-    {% include 'includes/rows.twig' %}
-    
-    <div class="row row__related">
-        
-        <div class="row__related--text">
-            
-            {% if entry.relatedResearch|length != 0 %}
-                <h2>Related research</h2>
-            
-                {% set entries = entry.relatedResearch.all() %}
-                {% for entry in entries %}
-                <a href="{{ entry.url }}">{{ entry.title }}</a><br>
-                {% endfor %}
-                
-                {% if entry.relatedWork|length == 0 %}
-                <br><br>
-                {% endif %}
-            {% endif %}
+	<div class="row row--empty"></div>
+	<div class="row--{{ entry.section.handle }}">
 
-            {% if entry.relatedWork|length != 0 %}
-                <h2>Related work</h2>
-                
-                {% set entries = entry.relatedWork.all() %}
-                {% for entry in entries %}
-                <a href="{{ entry.url }}">{{ entry.title }}
-                    {% if entry.thumbnail | length %}
-                        {% include 'includes/asset' with { asset: entry.thumbnail.one() } %}
-                    {% endif %}
-                </a>
-                {% endfor %}
-            {% endif %}
-        </div>
-    </div>
+		{% set assets = entry.thumbnail.all() %}
+		{% for asset in assets %}
+			<div class="row row__image row__image--first">
+				{% include 'includes/asset' with { asset: asset, fit: 'cover', controls: true } %}
+			</div>
+		{% endfor  %}
+	</div>
+
+	{% include 'includes/rows.twig' %}
+
+	<div class="row row__related">
+
+		<div class="row__related--text">
+
+			{% if entry.relatedResearch|length != 0 %}
+				<h2>Related research</h2>
+
+				{% set entries = entry.relatedResearch.all() %}
+				{% for entry in entries %}
+					<a href="{{ entry.url }}">{{ entry.title }}</a><br>
+				{% endfor %}
+
+				{% if entry.relatedWork|length == 0 %}
+					<br><br>
+				{% endif %}
+			{% endif %}
+
+			{% if entry.relatedWork|length != 0 %}
+				<h2>Related work</h2>
+
+				{% set entries = entry.relatedWork.all() %}
+				{% for entry in entries %}
+					<a href="{{ entry.url }}">{{ entry.title }}
+						{% if entry.thumbnail | length %}
+							{% include 'includes/asset' with { asset: entry.thumbnail.one() } %}
+						{% endif %}
+					</a>
+				{% endfor %}
+			{% endif %}
+		</div>
+	</div>
 {% endblock %}
 
 {% set id_right = 'work-feed-' ~ entry.slug %}
 {% block right %}
-    {% include 'includes/feed.twig' %}
+	{% include 'includes/feed.twig' %}
 {% endblock %}
