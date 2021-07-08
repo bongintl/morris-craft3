@@ -40,7 +40,8 @@
 
   &:hover {
     .entry__title,
-    .entry__location {
+    .entry__location,
+    .entry__role {
       border-bottom: 1px solid black;
     }
   }

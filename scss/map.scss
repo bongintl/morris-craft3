@@ -3,7 +3,7 @@ $dot-size: 0.8rem;
 @mixin dot {
   display: flex;
   &:before {
-    margin-top: 0.3rem;
+    margin-top: 0.35em;
     content: "";
     display: block;
     width: $dot-size;

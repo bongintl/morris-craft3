@@ -748,7 +748,8 @@ a:hover, .menu__social a:hover {
     display: none; }
 
 .entry:hover .entry__title,
-.entry:hover .entry__location {
+.entry:hover .entry__location,
+.entry:hover .entry__role {
   border-bottom: 1px solid black; }
 
 .entry__caption {
@@ -1040,7 +1041,7 @@ div.asset {
     cursor: pointer;
     display: flex; }
     .map-filters__category:before {
-      margin-top: 0.3rem;
+      margin-top: 0.35em;
       content: "";
       display: block;
       width: 0.8rem;
@@ -1064,7 +1065,7 @@ div.asset {
   cursor: pointer;
   display: flex; }
   .map-views__view:before {
-    margin-top: 0.3rem;
+    margin-top: 0.35em;
     content: "";
     display: block;
     width: 0.8rem;

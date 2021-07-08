@@ -31,6 +31,7 @@ const initMap = (containerEl, page) => {
     scrollwheel: false,
     styles: styles.noLabels,
     gestureHandling: "greedy",
+    backgroundColor: "none",
   });
 
   const containPoints = points => {
